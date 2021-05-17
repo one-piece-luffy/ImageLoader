@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="app_image">
+        <attr name="placeholderImage" format="reference"></attr>
+        <attr name="failureImage" format="reference"></attr>
+        <attr name="roundAsCircle" format="boolean"></attr>
+        <attr name="roundedCornerRadius" format="dimension"></attr>
+        <attr name="roundingBorderWidth" format="dimension"></attr>
+        <attr name="roundingBorderColor" format="color"></attr>
+        <attr name="backgroundImage" format="reference"></attr>
+        <attr name="viewAspectRatio" format="float"></attr>
+        <attr name="actualImageScaleType">
+            <enum name="none" value="-1"/>
+            <enum name="fitXY" value="0"/>
+            <enum name="fitStart" value="1"/>
+            <enum name="fitCenter" value="2"/>
+            <enum name="fitEnd" value="3"/>
+            <enum name="center" value="4"/>
+            <enum name="centerInside" value="5"/>
+            <enum name="centerCrop" value="6"/>
+            <enum name="focusCrop" value="7"/>
+            <enum name="fitBottomStart" value="8"/>
+        </attr>
+        <!--//未实现 start-->
+
+        <attr name="roundingBorderPadding" format="dimension"></attr>
+        <attr name="roundWithOverlayColor" format="color"></attr>
+        <attr name="progressBarImage" format="reference"></attr>
+
+
+
+
+        <attr name="progressBarImageScaleType">
+            <enum name="none" value="-1"/>
+            <enum name="fitXY" value="0"/>
+            <enum name="fitStart" value="1"/>
+            <enum name="fitCenter" value="2"/>
+            <enum name="fitEnd" value="3"/>
+            <enum name="center" value="4"/>
+            <enum name="centerInside" value="5"/>
+            <enum name="centerCrop" value="6"/>
+            <enum name="focusCrop" value="7"/>
+            <enum name="fitBottomStart" value="8"/>
+        </attr>
+        <attr name="failureImageScaleType">
+            <enum name="none" value="-1"/>
+            <enum name="fitXY" value="0"/>
+            <enum name="fitStart" value="1"/>
+            <enum name="fitCenter" value="2"/>
+            <enum name="fitEnd" value="3"/>
+            <enum name="center" value="4"/>
+            <enum name="centerInside" value="5"/>
+            <enum name="centerCrop" value="6"/>
+            <enum name="focusCrop" value="7"/>
+            <enum name="fitBottomStart" value="8"/>
+        </attr>
+        <attr name="placeholderImageScaleType">
+            <enum name="none" value="-1"/>
+            <enum name="fitXY" value="0"/>
+            <enum name="fitStart" value="1"/>
+            <enum name="fitCenter" value="2"/>
+            <enum name="fitEnd" value="3"/>
+            <enum name="center" value="4"/>
+            <enum name="centerInside" value="5"/>
+            <enum name="centerCrop" value="6"/>
+            <enum name="focusCrop" value="7"/>
+            <enum name="fitBottomStart" value="8"/>
+        </attr>
+        <!--//未实现 end-->
+
+        <!--圆角类型-->
+        <attr name="cornerType">
+            <enum name="all" value="0"/>
+            <enum name="left_top" value="1"/>
+            <enum name="left_bottom" value="2"/>
+            <enum name="right_top" value="3"/>
+            <enum name="right_bottom" value="4"/>
+            <enum name="left" value="5"/>
+            <enum name="right" value="6"/>
+            <enum name="bottom" value="7"/>
+            <enum name="top" value="8"/>
+        </attr>
+
+    </declare-styleable>
+
+    <declare-styleable name="CircleProgressView">
+        <attr name="cpv_progressNormalColor" format="color"/>
+        <attr name="cpv_progressReachColor" format="color"/>
+        <attr name="cpv_progressTextColor" format="color"/>
+        <attr name="cpv_progressTextSize" format="dimension"/>
+        <attr name="cpv_progressTextOffset" format="dimension"/>
+        <attr name="cpv_progressNormalSize" format="dimension"/>
+        <attr name="cpv_progressReachSize" format="dimension"/>
+        <attr name="cpv_radius" format="dimension"/>
+        <attr name="cpv_progressTextVisible" format="boolean"/>
+        <attr name="cpv_progressStartArc" format="integer"/>
+        <attr name="cpv_progressTextSkewX" format="dimension"/>
+        <attr name="cpv_progressTextPrefix" format="string"/>
+        <attr name="cpv_progressTextSuffix" format="string"/>
+        <attr name="cpv_innerBackgroundColor" format="color"/>
+        <attr name="cpv_progressStyle" format="enum">
+            <enum name="Normal" value="0"/>
+            <enum name="FillInner" value="1"/>
+            <enum name="FillInnerArc" value="2"/>
+        </attr>
+        <attr name="cpv_innerProgressColor" format="color"/>
+        <attr name="cpv_innerPadding" format="dimension"/>
+        <attr name="cpv_outerColor" format="color"/>
+        <attr name="cpv_outerSize" format="dimension"/>
+        <attr name="cpv_reachCapRound" format="boolean"/>
+    </declare-styleable>
+
+</resources>
