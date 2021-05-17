@@ -169,27 +169,27 @@ public class UnifyImageView extends ImageView {
 
     }
 
-    public void setImageURI(int resourceId) {
-        ImageLoader.getInstance().loadImage(getContext(), resourceId, mPlaceHolder, mErrorResourceId,
-                this, mRoundAsCircle, mRoundedCornerRadius, mScaleType, mCornerType, false);
-    }
-
-    public void setImageURI(String url) {
-        ImageLoader.getInstance().loadImage(getContext(), url, mPlaceHolder, mErrorResourceId,
-                this, mRoundAsCircle, mRoundedCornerRadius, mScaleType, mCornerType, false);
-    }
-
-    @Override
-    public void setImageResource(int resId) {
-        setImageURI(resId);
-    }
-
-    @Override
-    public void setImageURI(Uri uri) {
-        // todo
-        ImageLoader.getInstance().loadImage(getContext(), uri, mPlaceHolder, mErrorResourceId, this,
-                mRoundAsCircle, mRoundedCornerRadius, mScaleType, mCornerType, false);
-    }
+//    public void setImageURI(int resourceId) {
+//        ImageLoader.getInstance().loadImage(getContext(), resourceId, mPlaceHolder, mErrorResourceId,
+//                this, mRoundAsCircle, mRoundedCornerRadius, mScaleType, mCornerType, false);
+//    }
+//
+//    public void setImageURI(String url) {
+//        ImageLoader.getInstance().loadImage(getContext(), url, mPlaceHolder, mErrorResourceId,
+//                this, mRoundAsCircle, mRoundedCornerRadius, mScaleType, mCornerType, false);
+//    }
+//
+//    @Override
+//    public void setImageResource(int resId) {
+//        setImageURI(resId);
+//    }
+//
+//    @Override
+//    public void setImageURI(Uri uri) {
+//        // todo
+//        ImageLoader.getInstance().loadImage(getContext(), uri, mPlaceHolder, mErrorResourceId, this,
+//                mRoundAsCircle, mRoundedCornerRadius, mScaleType, mCornerType, false);
+//    }
 
     public void setAspectRatio(float ratio) {
         // todo

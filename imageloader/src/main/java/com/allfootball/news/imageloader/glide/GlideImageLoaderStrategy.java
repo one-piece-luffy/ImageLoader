@@ -3,6 +3,7 @@ package com.allfootball.news.imageloader.glide;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
@@ -18,7 +19,9 @@ import com.allfootball.news.imageloader.constant.ImageConstant;
 import com.allfootball.news.imageloader.progress.OnProgressListener;
 import com.allfootball.news.imageloader.progress.ProgressManager;
 import com.allfootball.news.imageloader.util.BaseImageLoaderStrategy;
+import com.allfootball.news.imageloader.util.ImageConfig;
 import com.allfootball.news.imageloader.util.ImageLoader;
+import com.allfootball.news.imageloader.util.ImageOption;
 import com.allfootball.news.view.UnifyImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
@@ -50,174 +53,18 @@ public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy {
     public static final String TAG = "GlideStrategy";
 
     @Override
-    public void init() {
+    public void init(ImageConfig config) {
         ViewTarget.setTagId(R.id.glide_tag);
     }
 
     @Override
-    public void loadImage(Context context, String url, int placeholder, int errorResourceId,
-            ImageView imageView, boolean roundAsCircle, float roundedCornerRadius, int scaleType,
-            boolean autoPlayGif) {
-        if (context == null)
-            return;
-        RequestOptions options = getOptions(placeholder, errorResourceId, roundAsCircle,
-                roundedCornerRadius, scaleType, autoPlayGif);
-        Glide.with(context).load(url).apply(options).into(imageView);
+    public void loadImage(Context context, ImageOption option) {
 
-    }
-
-    @Override
-    public void loadImage(Context context, Uri uri, int placeholder, int errorResourceId,
-            ImageView imageView, boolean roundAsCircle, float roundedCornerRadius, int scaleType,
-            boolean autoPlayGif) {
-        if (context == null)
-            return;
-        RequestOptions options = getOptions(placeholder, errorResourceId, roundAsCircle,
-                roundedCornerRadius, scaleType, autoPlayGif);
-        // GenericTransitionOptions.with(R.anim.fade_in)
-        // Glide.with(context).load(uri).transition(DrawableTransitionOptions.withCrossFade()).apply(options).into(imageView);
-        Glide.with(context).load(uri).apply(options).into(imageView);
-    }
-
-    @Override
-    public void loadImage(Context context, File file, int placeholder, int errorResourceId,
-            ImageView imageView, boolean roundAsCircle, float roundedCornerRadius, int scaleType,
-            boolean autoPlayGif) {
-        if (context == null)
-            return;
-        RequestOptions options = getOptions(placeholder, errorResourceId, roundAsCircle,
-                roundedCornerRadius, scaleType, autoPlayGif);
-        Glide.with(context).load(file).apply(options).into(imageView);
-    }
-
-    @Override
-    public void loadImage(Context context, int resourceId, int placeholder, int errorResourceId,
-            ImageView imageView, boolean roundAsCircle, float roundedCornerRadius, int scaleType,
-            boolean autoPlayGif) {
-        if (context == null)
-            return;
-        RequestOptions options = getOptions(placeholder, errorResourceId, roundAsCircle,
-                roundedCornerRadius, scaleType, autoPlayGif);
-        Glide.with(context).load(resourceId).apply(options).into(imageView);
-
-    }
-
-    @Override
-    public void loadImage(Context context, String url, int placeholder, int errorResourceId,
-                          ImageView imageView, boolean roundAsCircle, float roundedCornerRadius, int scaleType,
-                          int cornerType, boolean autoPlayGif) {
-        if (context == null)
-            return;
-        RequestOptions options = getOptions(context, placeholder, errorResourceId, roundAsCircle,
-                roundedCornerRadius, scaleType, cornerType, autoPlayGif);
-        Glide.with(context).load(url).apply(options).into(imageView);
-
-    }
-
-    @Override
-    public void loadImage(Context context, Uri uri, int placeholder, int errorResourceId,
-                          ImageView imageView, boolean roundAsCircle, float roundedCornerRadius, int scaleType,
-                          int cornerType, boolean autoPlayGif) {
-        if (context == null)
-            return;
-        RequestOptions options = getOptions(context, placeholder, errorResourceId, roundAsCircle,
-                roundedCornerRadius, scaleType, cornerType, autoPlayGif);
-        // GenericTransitionOptions.with(R.anim.fade_in)
-        // Glide.with(context).load(uri).transition(DrawableTransitionOptions.withCrossFade()).apply(options).into(imageView);
-
-        Glide.with(context).load(uri).apply(options).into(imageView);
-    }
-
-    @Override
-    public void loadImage(Context context, int resourceId, int placeholder, int errorResourceId,
-                          ImageView imageView, boolean roundAsCircle, float roundedCornerRadius, int scaleType,
-                          int cornerType, boolean autoPlayGif) {
-        if (context == null)
-            return;
-        RequestOptions options = getOptions(context, placeholder, errorResourceId, roundAsCircle,
-                roundedCornerRadius, scaleType, cornerType, autoPlayGif);
-        Glide.with(context).load(resourceId).apply(options).into(imageView);
-    }
-
-    private RequestBuilder getRetryRequest(Context context, RequestOptions options, int index,
-            String... url) {
-        if (context == null)
-            return null;
-        if (index >= url.length) {
-            return null;
-        } else if (index == url.length - 1) {
-            return Glide.with(context).load(url[index]).apply(options);
+        if (option.urls != null) {
+            loadImage(context, option.imageView, option.timeOutMillisecond, option.urls);
         } else {
-            return Glide.with(context).load(url[index])
-                    .error(getRetryRequest(context, options, index + 1, url)).apply(options);
+            startLoad(context, option);
         }
-    }
-
-    /**
-     * 多图请求，第一张失败就加载第二张
-     * @param context
-     * @param imageView
-     * @param autoPlayGif
-     * @param listener
-     * @param url 图片数组
-     */
-    @Override
-    public void loadImage(Context context, ImageView imageView, boolean autoPlayGif,
-                          final ImageLoader.ImageListener listener, String... url) {
-        RequestOptions options = new RequestOptions();
-        if (imageView instanceof UnifyImageView) {
-            UnifyImageView unifyImageView = (UnifyImageView)imageView;
-            options = getOptions(unifyImageView.getPlaceHolder(),
-                    unifyImageView.getErrorResourceId(), unifyImageView.isRoundAsCircle(),
-                    unifyImageView.getRoundedCornerRadius(), unifyImageView.getUnifyScaleType(),
-                    autoPlayGif);
-        }
-        Glide.with(context).load(url[0])
-                .error(getRetryRequest(context,options,1,url))
-                .into(new ImageViewTarget<Drawable>(imageView) {
-                    @Override
-                    public void onResourceReady(@NonNull Drawable resource,
-                            @Nullable Transition<? super Drawable> transition) {
-                        super.onResourceReady(resource, transition);
-                        if (imageView == null) {
-                            return;
-                        }
-                        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        if (resource instanceof GifDrawable) {
-                            GifDrawable gifDrawable = (GifDrawable)resource;
-                            if (autoPlayGif) {
-                                gifDrawable.start();
-                                if (!gifDrawable.isRunning() && gifDrawable.getFrameIndex() > -1) {
-                                    gifDrawable.startFromFirstFrame();
-                                }
-                            }
-                            imageView.setImageDrawable(gifDrawable);
-                            if (listener != null) {
-                                listener.onSuccess(resource, true);
-                            }
-                            // Do things with GIF here.
-                        } else {
-                            imageView.setImageDrawable(resource);
-                            if (listener != null) {
-                                listener.onSuccess(resource, false);
-                            }
-                        }
-
-                    }
-
-                    @Override
-                    protected void setResource(@Nullable Drawable resource) {
-                    }
-
-                    @Override
-                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                        super.onLoadFailed(errorDrawable);
-                        if (listener != null) {
-                            listener.onFail();
-                        }
-                    }
-                });
-//                Glide.with(context).clear(imageView);
 
     }
 
@@ -225,15 +72,14 @@ public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy {
     /**
      * 多图请求，第一张失败或者超过预定的阀值还没加载出来就加载第下一张，以此类推，最后那个url的图片先加载出来就显示哪个
      * eg:第一个url0.5秒没显示出来就去加载第二个url，第二个url0.5秒没显示出来就去加载第三个，以此类推，最后那个图片先下载下来就显示哪个
-     * 
+     *
      * @param context
      * @param imageView
-     * @param autoPlayGif
-     * @param timeout 超时时间 单位毫秒
-     * @param url 图片数组
+     * @param timeout   超时时间 单位毫秒,默认10秒
+     * @param url       图片数组
      */
-    @Override
-    public void loadImage(Context context, ImageView imageView, boolean autoPlayGif, int timeout, String... url) {
+    public void loadImage(Context context, ImageView imageView, int timeout, String... url) {
+
         imageView.setTag(imageView.getId(), null);
         final String temp = url[0];
         loadImage(context, url[0], new ImageLoader.ImageListener() {
@@ -271,7 +117,11 @@ public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy {
                                 Log.e(TAG, "load url:" + temp);
                             }
                         });
-                        checkTimeOut.postDelayed(this, timeout);
+                        int timeOutMillisecond = timeout;
+                        if (timeOutMillisecond <= 0) {
+                            timeOutMillisecond = 10 * 1000;
+                        }
+                        checkTimeOut.postDelayed(this, timeOutMillisecond);
                     } else if (index == url.length - 1) {
                         final String temp = url[index];
                         loadImage(context, url[index], new ImageLoader.ImageListener() {
@@ -296,17 +146,17 @@ public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy {
 
     /**
      * 没有设置imageview的图像
+     *
      * @param context
      * @param url
      * @param listener
      */
-    @Override
     public void loadImage(final Context context, String url,
-            final ImageLoader.ImageListener listener) {
+                          final ImageLoader.ImageListener listener) {
         Glide.with(context).load(url).into(new SimpleTarget<Drawable>() {
             @Override
             public void onResourceReady(@NonNull Drawable resource,
-                    @Nullable Transition<? super Drawable> transition) {
+                                        @Nullable Transition<? super Drawable> transition) {
 
                 if (resource instanceof GifDrawable) {
                     if (listener != null) {
@@ -331,146 +181,154 @@ public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy {
         });
     }
 
-    @Override
-    public void loadImage(Context context, String url, final ImageView imageView,
-            final boolean autoPlayGif, final ImageLoader.ImageListener listener) {
-        RequestOptions options = new RequestOptions();
-        if (imageView instanceof UnifyImageView) {
-            UnifyImageView unifyImageView = (UnifyImageView)imageView;
-            options = getOptions(unifyImageView.getPlaceHolder(),
-                    unifyImageView.getErrorResourceId(), unifyImageView.isRoundAsCircle(),
-                    unifyImageView.getRoundedCornerRadius(), unifyImageView.getUnifyScaleType(),
-                    autoPlayGif);
 
+    private void setBorder(ImageOption option){
+        if (option.roundingBorderWidth > 0) {
+            GradientDrawable drawable = new GradientDrawable();
+
+            drawable.setStroke(option.roundingBorderWidth, option.roundingBorderColor);
+            if (option.roundAsCircle) {
+                drawable.setShape(GradientDrawable.OVAL);
+            }
+            option.imageView.setBackground(drawable);
+            option.imageView.setPadding(option.roundingBorderWidth, option.roundingBorderWidth, option.roundingBorderWidth,
+
+                    option.roundingBorderWidth);
         }
-        Glide.with(context).load(url).apply(options)
-                .into(new ImageViewTarget<Drawable>(imageView) {
-                    @Override
-                    public void onResourceReady(@NonNull Drawable resource,
-                            @Nullable Transition<? super Drawable> transition) {
-                        super.onResourceReady(resource, transition);
-                        if (imageView == null) {
-                            return;
-                        }
-                        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        if (resource instanceof GifDrawable) {
-                            GifDrawable gifDrawable = (GifDrawable)resource;
-                            if (autoPlayGif) {
-                                gifDrawable.start();
-                                if (!gifDrawable.isRunning() && gifDrawable.getFrameIndex() > -1) {
-                                    gifDrawable.startFromFirstFrame();
-                                }
-                            }
-                            imageView.setImageDrawable(gifDrawable);
-                            if (listener != null) {
-                                listener.onSuccess(resource, true);
-                            }
-                            // Do things with GIF here.
-                        } else {
-                            imageView.setImageDrawable(resource);
-                            if (listener != null) {
-                                listener.onSuccess(resource, false);
-                            }
-                        }
-                    }
-
-                    @Override
-                    protected void setResource(@Nullable Drawable resource) {
-                    }
-
-                    @Override
-                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                        super.onLoadFailed(errorDrawable);
-                        if (listener != null) {
-                            listener.onFail();
-                        }
-                    }
-                });
-
     }
+    private void startLoad(Context context, ImageOption option) {
+        String tempUrl = option.url;
+        if (!TextUtils.isEmpty(tempUrl) && tempUrl.endsWith(ImageConstant.WEBP_SUFFIX)) {
 
-    @Override
-    public void loadImage(Context context, String url, final ImageView imageView,
-            final boolean autoPlayGif, final ImageLoader.ImageListener listener,
-            OnProgressListener onProgressListener) {
-        String tempUrl = url;
-        if (!TextUtils.isEmpty(url) && url.endsWith(ImageConstant.WEBP_SUFFIX)) {
-
-            tempUrl = url.substring(0, url.length() - ImageConstant.WEBP_SUFFIX.length());
+            tempUrl = tempUrl.substring(0, tempUrl.length() - ImageConstant.WEBP_SUFFIX.length());
 
         }
-        ProgressManager.addListener(tempUrl, onProgressListener);
+        ProgressManager.addListener(tempUrl, option.onProgressListener);
 
-        RequestOptions options = new RequestOptions();
-        if (imageView instanceof UnifyImageView) {
-            UnifyImageView unifyImageView = (UnifyImageView)imageView;
-            options = getOptions(unifyImageView.getPlaceHolder(),
-                    unifyImageView.getErrorResourceId(), unifyImageView.isRoundAsCircle(),
-                    unifyImageView.getRoundedCornerRadius(), unifyImageView.getUnifyScaleType(),
-                    autoPlayGif);
 
-        }
-        Glide.with(context).load(url).apply(options)
-                .into(new ImageViewTarget<Drawable>(imageView) {
 
+        RequestOptions requestOptions = getOptions(context, option.placeholder, option.errorResourceId, option.roundAsCircle,
+                option.roundedCornerRadius, option.scaleType, option.autoPlayGif, option.cornerType);
+
+        Glide.with(context).load(option.url).apply(requestOptions)
+                .into(new SimpleTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource,
-                            @Nullable Transition<? super Drawable> transition) {
-                        super.onResourceReady(resource, transition);
-                        if (imageView == null) {
-                            return;
-                        }
+                                                @Nullable Transition<? super Drawable> transition) {
+
                         if (resource instanceof GifDrawable) {
 
-                            GifDrawable gifDrawable = (GifDrawable)resource;
-                            if (autoPlayGif) {
-                                gifDrawable.start();
-                                Log.e(TAG, "gif frame index:" + gifDrawable.getFrameIndex());
-                                Log.e(TAG, "gif frame is running:" + gifDrawable.isRunning());
-                                if (!gifDrawable.isRunning() && gifDrawable.getFrameIndex() > -1) {
-                                    gifDrawable.startFromFirstFrame();
-                                }
-                                // if(!gifDrawable.isRunning()){
-                                // gifDrawable.startFromFirstFrame();
-                                // }
+                            GifDrawable gifDrawable = (GifDrawable) resource;
 
+                            if (option.imageView != null) {
+                                if (option.autoPlayGif) {
+                                    gifDrawable.start();
+                                    Log.i(TAG, "gif frame index:" + gifDrawable.getFrameIndex());
+                                    Log.i(TAG, "gif frame is running:" + gifDrawable.isRunning());
+                                    if (!gifDrawable.isRunning() && gifDrawable.getFrameIndex() > -1) {
+                                        gifDrawable.startFromFirstFrame();
+                                    }
+
+                                }
+                                option.imageView.setImageDrawable(gifDrawable);
+                                setBorder(option);
                             }
-                            imageView.setImageDrawable(gifDrawable);
-                            if (listener != null) {
-                                listener.onSuccess(resource, true);
+
+                            if (option.listener != null) {
+                                option.listener.onSuccess(resource, true);
                             }
                             // Do things with GIF here.
                         } else {
-                            imageView.setImageDrawable(resource);
-                            if (listener != null) {
-                                listener.onSuccess(resource, false);
+                            if (option.imageView != null) {
+                                option.imageView.setImageDrawable(resource);
+                                setBorder(option);
+                            }
+                            if (option.listener != null) {
+                                option.listener.onSuccess(resource, false);
                             }
                         }
+
                     }
 
                     @Override
-                    protected void setResource(@Nullable Drawable resource) {
-
+                    public void onLoadStarted(@Nullable Drawable placeholder) {
+                        super.onLoadStarted(placeholder);
+                        if (option.imageView != null) {
+                            option.imageView.setImageDrawable(placeholder);
+                        }
                     }
 
                     @Override
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
                         super.onLoadFailed(errorDrawable);
-                        if (listener != null) {
-                            listener.onFail();
+                        if (option.imageView != null) {
+                            option.imageView.setImageDrawable(errorDrawable);
+                        }
+                        if (option.listener != null) {
+                            option.listener.onFail();
                         }
                     }
                 });
+//                .into(new ImageViewTarget<Drawable>(option.imageView) {
+//
+//                    @Override
+//                    public void onResourceReady(@NonNull Drawable resource,
+//                                                @Nullable Transition<? super Drawable> transition) {
+//                        super.onResourceReady(resource, transition);
+//                        if (resource instanceof GifDrawable) {
+//
+//                            GifDrawable gifDrawable = (GifDrawable) resource;
+//
+//                            if (option.imageView != null) {
+//                                if (option.autoPlayGif) {
+//                                    gifDrawable.start();
+//                                    Log.i(TAG, "gif frame index:" + gifDrawable.getFrameIndex());
+//                                    Log.i(TAG, "gif frame is running:" + gifDrawable.isRunning());
+//                                    if (!gifDrawable.isRunning() && gifDrawable.getFrameIndex() > -1) {
+//                                        gifDrawable.startFromFirstFrame();
+//                                    }
+//
+//                                }
+//                                option.imageView.setImageDrawable(gifDrawable);
+//                            }
+//
+//                            if (option.listener != null) {
+//                                option.listener.onSuccess(resource, true);
+//                            }
+//                            // Do things with GIF here.
+//                        } else {
+//                            if (option.imageView != null) {
+//                                option.imageView.setImageDrawable(resource);
+//                            }
+//                            if (option.listener != null) {
+//                                option.listener.onSuccess(resource, false);
+//                            }
+//                        }
+//                    }
+//
+//                    @Override
+//                    protected void setResource(@Nullable Drawable resource) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+//                        super.onLoadFailed(errorDrawable);
+//                        if (option.listener != null) {
+//                            option.listener.onFail();
+//                        }
+//                    }
+//                });
 
     }
 
     @Override
     public void downloadImage(final Context context, final String url,
-            final ImageLoader.ImageListener listener) {
+                              final ImageLoader.ImageListener listener) {
         Glide.with(context).load(url).into(new SimpleTarget<Drawable>() {
             @Override
             public void onResourceReady(@NonNull Drawable resource,
-                    @Nullable Transition<? super Drawable> transition) {
+                                        @Nullable Transition<? super Drawable> transition) {
                 getCachedOnDisk(context, url, listener);
 
             }
@@ -487,7 +345,7 @@ public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy {
 
     @Override
     public void clearCache(final Context context) {
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 super.run();
@@ -503,7 +361,7 @@ public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy {
                 Glide.get(context).clearMemory();
             }
         });
-       
+
     }
 
     @Override
@@ -535,10 +393,10 @@ public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy {
                     File f = Glide.with(context).downloadOnly().load(
                             "https://img1.dongqiudi.com/fastdfs3/M00/13/2C/ChOxM1smvWaAfTQ8AACLY0UfZi4285.jpg")
                             .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get()// needs to be
-                                                                                     // called
+                            // called
 
-                    // on background thread
-                    ;
+                            // on background thread
+                            ;
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -554,7 +412,7 @@ public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy {
 
     @Override
     public File getCachedOnDisk(final Context context, final String url,
-            final ImageLoader.ImageListener imageListener) {
+                                final ImageLoader.ImageListener imageListener) {
 
         final Handler handler = new Handler();
         new Thread() {
@@ -597,65 +455,17 @@ public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy {
 
     }
 
-    private RequestOptions getOptions(int placeholder, int errorResourceId, boolean roundAsCircle,
-            float roundedCornerRadius, int scleType, boolean autoPlayGif) {
-        RequestOptions options = new RequestOptions();
-        if (((int)roundedCornerRadius) > 0) {
-            options.transforms(new CenterCrop(), new RoundedCorners((int)roundedCornerRadius));
-
-        } else {
-
-            switch (scleType) {
-                case -1:
-                    break;
-                case 0:
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    options.transforms(new FitCenter());
-                    break;
-                case 3:
-                    break;
-                case 4:
-
-                    break;
-                case 5:
-                    options.transforms(new CenterInside());
-                    break;
-                case 6:
-                    options.transforms(new CenterCrop());
-                    break;
-                case 7:
-                    break;
-                case 8:
-                    break;
-            }
-        }
-
-        options.placeholder(placeholder).error(errorResourceId);
-        if (!autoPlayGif) {
-            options.dontAnimate();
-        }
-        if (roundAsCircle) {
-            options.circleCrop();
-        }
-
-        //跳过缓存
-//        options.diskCacheStrategy(DiskCacheStrategy.NONE)
-//                .skipMemoryCache(true);
-
-        //仅用缓存
-//          options.onlyRetrieveFromCache(true);
-        return options;
-    }
-
     private RequestOptions getOptions(Context context, int placeholder, int errorResourceId, boolean roundAsCircle,
-                                      float roundedCornerRadius, int scleType, int cornerType, boolean autoPlayGif) {
+                                      float roundedCornerRadius, int scleType, boolean autoPlayGif, int cornerType) {
         RequestOptions options = new RequestOptions();
-        if (((int)roundedCornerRadius) > 0) {
-            RoundCornersTransformation transformation = new RoundCornersTransformation(context, roundedCornerRadius, cornerType);
-            options.transforms(new CenterCrop(), transformation);
+        if (((int) roundedCornerRadius) > 0) {
+            if (cornerType > 0) {
+                RoundCornersTransformation transformation = new RoundCornersTransformation(context, roundedCornerRadius, cornerType);
+                options.transforms(new CenterCrop(), transformation);
+            } else {
+                options.transforms(new CenterCrop(), new RoundedCorners((int) roundedCornerRadius));
+            }
+
 
         } else {
 
@@ -703,9 +513,11 @@ public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy {
 //          options.onlyRetrieveFromCache(true);
         return options;
     }
+
 
     /**
      * 复制单个文件
+     *
      * @param oldPath String 原文件路径 如：data/video/xxx.jpg
      * @param newPath String 复制后路径 如：data/oss/xxxx.jpg
      * @return boolean
@@ -746,10 +558,10 @@ public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy {
             }
         }
     }
-    
+
     class CheckTimeOut extends Handler {
         public ImageLoader.ImageListener listener;
-        public boolean resourceReady=false;
+        public boolean resourceReady = false;
 
         public CheckTimeOut(ImageLoader.ImageListener listener) {
             this.listener = listener;

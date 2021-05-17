@@ -4,6 +4,7 @@ package com.allfootball.news.imageloader.util;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.allfootball.news.imageloader.glide.GlideImageLoaderStrategy;
@@ -16,7 +17,7 @@ import java.io.File;
  */
 
 public class ImageLoader {
-    
+
     public final static int SCALE_TYPE_None = -1;
 
     public final static int SCALE_TYPE_FitCenter = 2;
@@ -28,6 +29,12 @@ public class ImageLoader {
     private static ImageLoader mInstance;
 
     private BaseImageLoaderStrategy mStrategy;
+
+    public interface STRATEGY_TYPE {
+        int GLIDE = 0;
+//        int FRESCO = 1;
+    }
+
 
     // 单例模式，节省资源
     public static ImageLoader getInstance() {
@@ -56,141 +63,82 @@ public class ImageLoader {
         mStrategy = strategy;
     }
 
-    public void init(){
-        mStrategy.init();
-
+    public void init(ImageConfig config) {
+        if (config == null) {
+            mStrategy = new GlideImageLoaderStrategy();
+        } else {
+            switch (config.strategyType) {
+                case 0:
+                default:
+                    mStrategy = new GlideImageLoaderStrategy();
+            }
+        }
+        mStrategy.init(config);
     }
 
-    public void loadImage(Context context, String url, int placeholder, int failRes,
-            ImageView imageView, boolean roundAsCircle, float roundedCornerRadius, int scaleType, boolean autoPlayGif) {
+    public void loadImage(Context context, ImageOption option) {
         if (context == null)
             return;
-        mStrategy.loadImage(context, url, placeholder, failRes, imageView, roundAsCircle,
-                roundedCornerRadius, scaleType, autoPlayGif);
+        if (mStrategy == null){
+            Log.e("ImageLoader","图片库ImageLoad没有初始化");
+            return;
+        }
+        mStrategy.loadImage(context, option);
     }
 
-    public void loadImage(Context context, Uri uri, int placeholder, int errorResourceId,
-            ImageView imageView, boolean roundAsCircle, float roundedCornerRadius, int scaleType, boolean autoPlayGif) {
+
+    public void downloadImage(Context context, String url, ImageListener listener) {
         if (context == null)
             return;
-        mStrategy.loadImage(context, uri, placeholder, errorResourceId, imageView, roundAsCircle,
-                roundedCornerRadius, scaleType, autoPlayGif);
+        if (mStrategy == null){
+            Log.e("ImageLoader","图片库ImageLoad没有初始化");
+            return;
+        }
+        mStrategy.downloadImage(context, url, listener);
     }
 
-    public void loadImage(Context context, File file, int placeholder, int errorResourceId,
-            ImageView imageView, boolean roundAsCircle, float roundedCornerRadius, int scaleType, boolean autoPlayGif) {
+    public void clearCache(Context context) {
         if (context == null)
             return;
-        mStrategy.loadImage(context, file, placeholder, errorResourceId, imageView, roundAsCircle,
-                roundedCornerRadius, scaleType, autoPlayGif);
-    }
-
-    public void loadImage(Context context, int resourceId, int placeholder, int errorResourceId,
-            ImageView imageView, boolean roundAsCircle, float roundedCornerRadius, int scaleType, boolean autoPlayGif) {
-        if (context == null)
+        if (mStrategy == null){
+            Log.e("ImageLoader","图片库ImageLoad没有初始化");
             return;
-        mStrategy.loadImage(context, resourceId, placeholder, errorResourceId, imageView,
-                roundAsCircle, roundedCornerRadius, scaleType, autoPlayGif);
-
-    }
-
-    public void loadImage(Context context, String url,ImageListener listener){
-        if (context == null)
-            return;
-        mStrategy.loadImage(context,url,listener);
-    }
-
-    public  void loadImage(Context context, String url, ImageView imageView, boolean autoPlayGif,
-                           ImageLoader.ImageListener listener){
-        if (context == null)
-            return;
-        mStrategy.loadImage(context,url,imageView,autoPlayGif,listener);
-    }
-
-    public  void loadImage(Context context, String url, ImageView imageView, boolean autoPlayGif,
-                           ImageLoader.ImageListener listener, OnProgressListener onProgressListener){
-        if (context == null)
-            return;
-        mStrategy.loadImage(context,url,imageView,autoPlayGif,listener,onProgressListener);
-    }
-
-    public void loadImage(Context context, String url, int placeholder, int failRes
-            , ImageView imageView, boolean roundAsCircle, float roundedCornerRadius
-            , int scaleType,int cornerType, boolean autoPlayGif) {
-        if (context == null)
-            return;
-        mStrategy.loadImage(context, url, placeholder, failRes, imageView, roundAsCircle,
-                roundedCornerRadius, scaleType, cornerType, autoPlayGif);
-    }
-
-    public void loadImage(Context context, Uri uri, int placeholder, int failRes
-            , ImageView imageView, boolean roundAsCircle, float roundedCornerRadius
-            , int scaleType,int cornerType, boolean autoPlayGif) {
-        if (context == null)
-            return;
-        mStrategy.loadImage(context, uri, placeholder, failRes, imageView, roundAsCircle,
-                roundedCornerRadius, scaleType, cornerType, autoPlayGif);
-    }
-
-    public void loadImage(Context context, int resourceId, int placeholder, int failRes
-            , ImageView imageView, boolean roundAsCircle, float roundedCornerRadius
-            , int scaleType,int cornerType, boolean autoPlayGif) {
-        if (context == null)
-            return;
-        mStrategy.loadImage(context, resourceId, placeholder, failRes, imageView, roundAsCircle,
-                roundedCornerRadius, scaleType, cornerType, autoPlayGif);
-    }
-
-    public void loadImage(Context context
-            , ImageView imageView, boolean autoPlayGif, final ImageLoader.ImageListener listener,String ... url) {
-        if (context == null)
-            return;
-        mStrategy.loadImage(context, imageView,  autoPlayGif, listener, url);
-    }
-
-    public void loadImage(Context context
-            , ImageView imageView, boolean autoPlayGif, int timeout, String ... url) {
-        if (context == null)
-            return;
-        mStrategy.loadImage(context, imageView,  autoPlayGif, timeout, url);
-    }
-
-    public void downloadImage(Context context, String url,ImageListener listener){
-        if (context == null)
-            return;
-        mStrategy.downloadImage(context,url,listener);
-    }
-
-    public void clearCache(Context context){
-        if (context == null)
-            return;
+        }
         mStrategy.clearCache(context);
     }
 
-    public  void clearMemoryCache(Context context){
+    public void clearMemoryCache(Context context) {
         if (context == null)
             return;
+        if (mStrategy == null){
+            Log.e("ImageLoader","图片库ImageLoad没有初始化");
+            return;
+        }
         mStrategy.clearMemoryCache(context);
     }
 
-    public File getCachedOnDisk(Context context, String url, ImageLoader.ImageListener listener){
+    public File getCachedOnDisk(Context context, String url, ImageLoader.ImageListener listener) {
         if (context == null)
             return null;
-        return mStrategy.getCachedOnDisk(context,url,listener);
+        if (mStrategy == null){
+            Log.e("ImageLoader","图片库ImageLoad没有初始化");
+            return null;
+        }
+        return mStrategy.getCachedOnDisk(context, url, listener);
     }
 
     public static interface BaseImageListener {
 
 
-        void onSuccess(Drawable drawable,boolean isGif);
+        void onSuccess(Drawable drawable, boolean isGif);
 
         void onFail();
 
-        void onDownloaded(String filePath,String reNameFilepath);
+        void onDownloaded(String filePath, String reNameFilepath);
     }
 
     public static class ImageListener implements BaseImageListener {
-        
+
         public boolean resourceReady;
 
         @Override
@@ -200,7 +148,7 @@ public class ImageLoader {
 
         @Override
         public void onFail() {
-            resourceReady=false;
+            resourceReady = false;
         }
 
         @Override
@@ -209,7 +157,6 @@ public class ImageLoader {
         }
 
     }
-
 
 
 }
