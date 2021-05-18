@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package com.allfootball.news.view.photoview;
+package com.allfootball.news.imageloader.view.photoview;
 
 import android.content.Context;
 import android.graphics.Matrix;
@@ -24,7 +24,7 @@ import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.widget.ImageView;
 
-import com.allfootball.news.view.UnifyImageView;
+import com.allfootball.news.imageloader.view.UnifyImageView;
 
 /**
  * A zoomable {@link ImageView}. See {@link PhotoViewAttacher} for most of the details on how the zooming

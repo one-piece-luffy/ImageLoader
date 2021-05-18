@@ -1,4 +1,4 @@
-package com.allfootball.news.imageloader.util;
+package com.allfootball.news.imageloader;
 
 import android.content.Context;
 import android.widget.ImageView;

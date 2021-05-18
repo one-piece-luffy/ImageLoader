@@ -11,11 +11,9 @@ import android.widget.ImageView;
 import com.allfootball.news.imageloader.glide.RoundCornersTransformation;
 import com.allfootball.news.imageloader.progress.CircleProgressView;
 import com.allfootball.news.imageloader.progress.OnProgressListener;
-import com.allfootball.news.imageloader.util.ImageConfig;
-import com.allfootball.news.imageloader.util.ImageLoader;
-import com.allfootball.news.imageloader.util.ImageOption;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
+import com.allfootball.news.imageloader.ImageConfig;
+import com.allfootball.news.imageloader.ImageLoader;
+import com.allfootball.news.imageloader.ImageOption;
 
 public class MainActivity extends AppCompatActivity {
 

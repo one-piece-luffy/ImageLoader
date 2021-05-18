@@ -1,9 +1,8 @@
 
-package com.allfootball.news.view;
+package com.allfootball.news.imageloader.view;
 
 import com.allfootball.news.imageloader.R;
-import com.allfootball.news.imageloader.util.AspectRatioMeasure;
-import com.allfootball.news.imageloader.util.ImageLoader;
+import com.allfootball.news.imageloader.AspectRatioMeasure;
 import com.allfootball.news.imageloader.glide.RoundCornersTransformation.CornerType;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 
@@ -11,7 +10,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.net.Uri;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 

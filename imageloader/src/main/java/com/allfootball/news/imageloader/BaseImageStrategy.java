@@ -1,12 +1,8 @@
 
-package com.allfootball.news.imageloader.util;
+package com.allfootball.news.imageloader;
 
 import android.content.Context;
-import android.net.Uri;
-import android.widget.ImageView;
 
-
-import com.allfootball.news.imageloader.progress.OnProgressListener;
 
 import java.io.File;
 
@@ -14,11 +10,11 @@ import java.io.File;
  * Created by lihaiyi on 2018/6/14.
  */
 
-public interface BaseImageLoaderStrategy {
+public interface BaseImageStrategy {
 
     void init(ImageConfig config);
 
-    void loadImage(Context context,ImageOption option);
+    void loadImage(Context context, ImageOption option);
 
     void downloadImage(Context context, String url,ImageLoader.ImageListener listener);
 

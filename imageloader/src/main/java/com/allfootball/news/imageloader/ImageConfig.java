@@ -1,11 +1,4 @@
-package com.allfootball.news.imageloader.util;
-
-import android.content.Context;
-import android.widget.ImageView;
-
-import com.allfootball.news.imageloader.progress.OnProgressListener;
-
-import java.io.File;
+package com.allfootball.news.imageloader;
 
 public class ImageConfig {
     public int strategyType;

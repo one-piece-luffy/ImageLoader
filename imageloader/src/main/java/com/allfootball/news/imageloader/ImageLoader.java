@@ -1,14 +1,11 @@
 
-package com.allfootball.news.imageloader.util;
+package com.allfootball.news.imageloader;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.util.Log;
-import android.widget.ImageView;
 
 import com.allfootball.news.imageloader.glide.GlideImageLoaderStrategy;
-import com.allfootball.news.imageloader.progress.OnProgressListener;
 
 import java.io.File;
 
@@ -28,7 +25,7 @@ public class ImageLoader {
 
     private static ImageLoader mInstance;
 
-    private BaseImageLoaderStrategy mStrategy;
+    private BaseImageStrategy mStrategy;
 
     public interface STRATEGY_TYPE {
         int GLIDE = 0;
@@ -59,7 +56,7 @@ public class ImageLoader {
      *
      * @param strategy
      */
-    public void setLoadImgStrategy(BaseImageLoaderStrategy strategy) {
+    public void setLoadImgStrategy(BaseImageStrategy strategy) {
         mStrategy = strategy;
     }
 

@@ -1,4 +1,4 @@
-package com.allfootball.news.view.photoview;
+package com.allfootball.news.imageloader.view.photoview;
 
 /**
  * Interface definition for a callback to be invoked when the photo is experiencing a drag event

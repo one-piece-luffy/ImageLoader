@@ -7,7 +7,7 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-package com.allfootball.news.imageloader.util;
+package com.allfootball.news.imageloader;
 
 import android.view.View;
 import android.view.ViewGroup;

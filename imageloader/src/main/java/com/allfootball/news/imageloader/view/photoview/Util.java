@@ -1,4 +1,4 @@
-package com.allfootball.news.view.photoview;
+package com.allfootball.news.imageloader.view.photoview;
 
 import android.view.MotionEvent;
 import android.widget.ImageView;

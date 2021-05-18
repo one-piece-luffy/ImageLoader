@@ -4,7 +4,6 @@ package com.allfootball.news.imageloader.glide;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
@@ -16,22 +15,18 @@ import androidx.annotation.Nullable;
 
 import com.allfootball.news.imageloader.R;
 import com.allfootball.news.imageloader.constant.ImageConstant;
-import com.allfootball.news.imageloader.progress.OnProgressListener;
 import com.allfootball.news.imageloader.progress.ProgressManager;
-import com.allfootball.news.imageloader.util.BaseImageLoaderStrategy;
-import com.allfootball.news.imageloader.util.ImageConfig;
-import com.allfootball.news.imageloader.util.ImageLoader;
-import com.allfootball.news.imageloader.util.ImageOption;
-import com.allfootball.news.view.UnifyImageView;
+import com.allfootball.news.imageloader.BaseImageStrategy;
+import com.allfootball.news.imageloader.ImageConfig;
+import com.allfootball.news.imageloader.ImageLoader;
+import com.allfootball.news.imageloader.ImageOption;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CenterInside;
 import com.bumptech.glide.load.resource.bitmap.FitCenter;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.ImageViewTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.target.ViewTarget;
@@ -48,7 +43,7 @@ import java.util.concurrent.ExecutionException;
  * Created by lihaiyi on 2018/6/14.
  */
 
-public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy {
+public class GlideImageLoaderStrategy implements BaseImageStrategy {
 
     public static final String TAG = "GlideStrategy";
 
