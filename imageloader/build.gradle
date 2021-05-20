@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.646796992@qq.com'
+group='com.github.one-piece-luffy'
 android {
 
     compileOptions {
