@@ -205,6 +205,11 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
         RequestOptions requestOptions = getOptions(context, option.placeholder, option.errorResourceId, option.roundAsCircle,
                 option.roundedCornerRadius, option.scaleType, option.autoPlayGif, option.cornerType);
 
+        if(TextUtils.isEmpty(option.url)){
+            Glide.with(context).load(option.resId).apply(requestOptions)
+                    .into(option.imageView);
+            return;
+        }
         Glide.with(context).load(option.url).apply(requestOptions)
                 .into(new SimpleTarget<Drawable>() {
                     @Override

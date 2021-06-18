@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ImageView imageView=findViewById(R.id.img);
         ImageView iv1=findViewById(R.id.img1);
+        ImageView iv2=findViewById(R.id.img2);
         CircleProgressView circleProgressView=findViewById(R.id.progressView);
 
         ImageLoader.getInstance().init(new ImageConfig.Builder().strategyType(ImageLoader.STRATEGY_TYPE.GLIDE).build());
@@ -73,6 +74,17 @@ public class MainActivity extends AppCompatActivity {
                 .roundingBorderWidth(20)
                 .build();
         ImageLoader.getInstance().loadImage(this,option1);
+
+        ImageOption option2=new ImageOption.Builder().resId(R.drawable.yz)
+                .imageView(iv2)
+                .placeholder(R.drawable.placeholder)
+                .errorResourceId(R.drawable.error)
+                .autoPlayGif(true)
+                .roundAsCircle(true)
+                .roundingBorderColor(0xffffffff)
+                .roundingBorderWidth(20)
+                .build();
+        ImageLoader.getInstance().loadImage(this,option2);
 
     }
 

@@ -25,8 +25,8 @@ public class ImageOption {
     public int timeOutMillisecond;
     public int cornerType;
     public int roundingBorderWidth;
-
     public int roundingBorderColor;
+    public int resId;
 
 
     private ImageOption(Builder builder) {
@@ -48,6 +48,7 @@ public class ImageOption {
         this.cornerType=builder.cornerType;
         this.roundingBorderWidth=builder.roundingBorderWidth;
         this.roundingBorderColor=builder.roundingBorderColor;
+        this.resId=builder.resId;
     }
 
     public static class Builder {
@@ -69,6 +70,7 @@ public class ImageOption {
         int cornerType;
         int roundingBorderWidth;
         int roundingBorderColor;
+        int resId;
 
         public Builder context(Context context) {
             this.context = context;
@@ -87,6 +89,10 @@ public class ImageOption {
 
         public Builder failRes(int failRes) {
             this.failRes = failRes;
+            return this;
+        }
+        public Builder resId(int resId) {
+            this.resId = resId;
             return this;
         }
 
