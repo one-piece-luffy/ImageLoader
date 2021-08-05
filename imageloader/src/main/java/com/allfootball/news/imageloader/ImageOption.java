@@ -3,37 +3,37 @@ package com.allfootball.news.imageloader;
 import android.content.Context;
 import android.widget.ImageView;
 
+import com.allfootball.news.imageloader.glide.RoundCornersTransformation;
 import com.allfootball.news.imageloader.progress.OnProgressListener;
 
 import java.io.File;
 
 public class ImageOption {
     public Context context;
-    public String url;
-    public int placeholder;
-    public int failRes;
+    public String url;//图片地址
+    public int placeholder;//加载过程的图片
     public ImageView imageView;
-    public boolean roundAsCircle;
-    public float roundedCornerRadius;
-    public int scaleType;
-    public boolean autoPlayGif;
-    public File file;
-    public int errorResourceId;
-    public ImageLoader.ImageListener listener;
-    public OnProgressListener onProgressListener;
-    public String[] urls;
-    public int timeOutMillisecond;
-    public int cornerType;
-    public int roundingBorderWidth;
-    public int roundingBorderColor;
-    public int resId;
+    public boolean roundAsCircle;//圆形
+    public float roundedCornerRadius;//圆角，单位px
+    public float radiusDp;//圆角，单位px
+    public int scaleType;//缩放类型
+    public boolean autoPlayGif;//自动播放gif图片
+    public File file;//加载文件图片
+    public int errorResourceId;//加载失败的图片
+    public ImageLoader.ImageListener listener;//成功失败监听
+    public OnProgressListener onProgressListener;//图片加载进度监听
+    public String[] urls;//加载多张图片，如果第一张失败则加载第二张图，如果第二张失败则加载弟三张...
+    public int timeOutMillisecond;//超时时间
+    public int cornerType;//圆角类型：左、上、右、下  ( RoundCornersTransformation.CornerType.LEFT_TOP )
+    public int roundingBorderWidth;//圆形图片边框大小
+    public int roundingBorderColor;//圆形图片边框颜色
+    public int resId;//如果没有网络图片则加载的本地图片
 
 
     private ImageOption(Builder builder) {
         this.context = builder.context;
         this.url = builder.url;
         this.placeholder = builder.placeholder;
-        this.failRes = builder.failRes;
         this.imageView = builder.imageView;
 
         this.roundAsCircle = builder.roundAsCircle;
@@ -49,13 +49,13 @@ public class ImageOption {
         this.roundingBorderWidth=builder.roundingBorderWidth;
         this.roundingBorderColor=builder.roundingBorderColor;
         this.resId=builder.resId;
+        this.radiusDp=builder.radiusDp;
     }
 
     public static class Builder {
         private Context context;
         private String url;
         private int placeholder;
-        private int failRes;
         private ImageView imageView;
         private boolean roundAsCircle;
         private float roundedCornerRadius;
@@ -71,9 +71,10 @@ public class ImageOption {
         int roundingBorderWidth;
         int roundingBorderColor;
         int resId;
-
+        float radiusDp;//圆角，单位px
         public Builder context(Context context) {
             this.context = context;
+
             return this;
         }
 
@@ -84,11 +85,6 @@ public class ImageOption {
 
         public Builder placeholder(int placeholder) {
             this.placeholder = placeholder;
-            return this;
-        }
-
-        public Builder failRes(int failRes) {
-            this.failRes = failRes;
             return this;
         }
         public Builder resId(int resId) {
@@ -109,6 +105,10 @@ public class ImageOption {
 
         public Builder radius(float roundedCornerRadius) {
             this.roundedCornerRadius = roundedCornerRadius;
+            return this;
+        }
+        public Builder radiusDp(float roundedCornerRadius) {
+            this.radiusDp = radiusDp;
             return this;
         }
 

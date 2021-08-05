@@ -20,6 +20,7 @@ import com.allfootball.news.imageloader.BaseImageStrategy;
 import com.allfootball.news.imageloader.ImageConfig;
 import com.allfootball.news.imageloader.ImageLoader;
 import com.allfootball.news.imageloader.ImageOption;
+import com.allfootball.news.imageloader.util.ImageLoaderUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CenterInside;
@@ -201,9 +202,12 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
         ProgressManager.addListener(tempUrl, option.onProgressListener);
 
 
-
+        float radius = option.roundedCornerRadius;
+        if (option.radiusDp > 0) {
+            radius = ImageLoaderUtil.dip2px(context, option.radiusDp);
+        }
         RequestOptions requestOptions = getOptions(context, option.placeholder, option.errorResourceId, option.roundAsCircle,
-                option.roundedCornerRadius, option.scaleType, option.autoPlayGif, option.cornerType);
+                radius, option.scaleType, option.autoPlayGif, option.cornerType);
 
         if(TextUtils.isEmpty(option.url)){
             Glide.with(context).load(option.resId).apply(requestOptions)
