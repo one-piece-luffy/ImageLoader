@@ -1,6 +1,7 @@
 
 package com.allfootball.news.imageloader.glide;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -459,6 +460,7 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
 
     }
 
+    @SuppressLint("CheckResult")
     private RequestOptions getOptions(Context context, int placeholder, int errorResourceId, boolean roundAsCircle,
                                       float roundedCornerRadius, int scleType, boolean autoPlayGif, int cornerType) {
         RequestOptions options = new RequestOptions();
@@ -467,7 +469,7 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
                 RoundCornersTransformation transformation = new RoundCornersTransformation(context, roundedCornerRadius, cornerType);
                 options.transforms(new CenterCrop(), transformation);
             } else {
-                options.transforms(new CenterCrop(), new RoundedCorners((int) roundedCornerRadius));
+                options.transform(new RoundedCorners((int) roundedCornerRadius));
             }
 
 
