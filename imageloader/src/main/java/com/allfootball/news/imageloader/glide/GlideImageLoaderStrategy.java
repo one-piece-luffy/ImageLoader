@@ -3,6 +3,7 @@ package com.allfootball.news.imageloader.glide;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -253,13 +254,17 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
                             // Do things with GIF here.
                         } else {
                             if (option.imageView != null) {
-                                if(tempRadius>0){
+                                if (tempRadius > 0) {
+                                    Resources res=null;
+                                    if(option.context!=null){
+                                        res=option.context.getResources();
+                                    }
                                     BitmapDrawable bd = (BitmapDrawable) resource;
                                     RoundedBitmapDrawable circularBitmapDrawable =
-                                            RoundedBitmapDrawableFactory.create(option.context.getResources(),  bd.getBitmap());
+                                            RoundedBitmapDrawableFactory.create(res, bd.getBitmap());
                                     circularBitmapDrawable.setCornerRadius(tempRadius);
                                     option.imageView.setImageDrawable(circularBitmapDrawable);
-                                }else {
+                                } else {
                                     option.imageView.setImageDrawable(resource);
                                 }
 
