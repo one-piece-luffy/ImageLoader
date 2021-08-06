@@ -257,8 +257,8 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
                                 if (option.radiusStrong && tempRadius > 0) {
                                     //修复在recyclerview里圆角不一致的问题
                                     Resources res = null;
-                                    if (option.context != null) {
-                                        res = option.context.getResources();
+                                    if (option.imageView.getContext() != null) {
+                                        res = option.imageView.getContext().getResources();
                                     }
                                     BitmapDrawable bd = (BitmapDrawable) resource;
                                     RoundedBitmapDrawable circularBitmapDrawable =
