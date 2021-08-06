@@ -79,10 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 .imageView(iv2)
                 .placeholder(R.drawable.placeholder)
                 .errorResourceId(R.drawable.error)
-                .autoPlayGif(true)
-                .roundAsCircle(true)
-                .roundingBorderColor(0xffffffff)
-                .roundingBorderWidth(20)
+                .radiusDp(10)
                 .build();
         ImageLoader.getInstance().loadImage(this,option2);
 

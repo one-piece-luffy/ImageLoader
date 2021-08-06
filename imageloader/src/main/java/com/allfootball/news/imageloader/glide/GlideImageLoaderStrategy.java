@@ -3,6 +3,7 @@ package com.allfootball.news.imageloader.glide;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
@@ -23,6 +24,7 @@ import com.allfootball.news.imageloader.ImageLoader;
 import com.allfootball.news.imageloader.ImageOption;
 import com.allfootball.news.imageloader.util.ImageLoaderUtil;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CenterInside;
 import com.bumptech.glide.load.resource.bitmap.FitCenter;
@@ -39,6 +41,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -469,7 +473,7 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
                 RoundCornersTransformation transformation = new RoundCornersTransformation(context, roundedCornerRadius, cornerType);
                 options.transforms(new CenterCrop(), transformation);
             } else {
-                options.transform(new RoundedCorners((int) roundedCornerRadius));
+                options.transform(new CenterCrop(),new RoundedCorners((int) roundedCornerRadius));
             }
 
 
