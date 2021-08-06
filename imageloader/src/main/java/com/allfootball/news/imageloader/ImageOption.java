@@ -107,7 +107,7 @@ public class ImageOption {
             this.roundedCornerRadius = roundedCornerRadius;
             return this;
         }
-        public Builder radiusDp(float roundedCornerRadius) {
+        public Builder radiusDp(float radiusDp) {
             this.radiusDp = radiusDp;
             return this;
         }
