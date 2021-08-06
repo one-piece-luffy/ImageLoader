@@ -4,6 +4,7 @@ package com.allfootball.news.imageloader.glide;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
@@ -14,6 +15,8 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 
 import com.allfootball.news.imageloader.R;
 import com.allfootball.news.imageloader.constant.ImageConstant;
@@ -219,6 +222,7 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
                     .into(option.imageView);
             return;
         }
+        final float tempRadius=radius;
         Glide.with(context).load(option.url).apply(requestOptions)
                 .into(new SimpleTarget<Drawable>() {
                     @Override
@@ -249,7 +253,16 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
                             // Do things with GIF here.
                         } else {
                             if (option.imageView != null) {
-                                option.imageView.setImageDrawable(resource);
+                                if(tempRadius>0){
+                                    BitmapDrawable bd = (BitmapDrawable) resource;
+                                    RoundedBitmapDrawable circularBitmapDrawable =
+                                            RoundedBitmapDrawableFactory.create(option.context.getResources(),  bd.getBitmap());
+                                    circularBitmapDrawable.setCornerRadius(tempRadius);
+                                    option.imageView.setImageDrawable(circularBitmapDrawable);
+                                }else {
+                                    option.imageView.setImageDrawable(resource);
+                                }
+
                                 setBorder(option);
                             }
                             if (option.listener != null) {
