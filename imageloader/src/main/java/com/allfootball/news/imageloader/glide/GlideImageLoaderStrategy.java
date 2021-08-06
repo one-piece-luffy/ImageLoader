@@ -255,6 +255,7 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
                         } else {
                             if (option.imageView != null) {
                                 if (tempRadius > 0) {
+                                    //修复在recyclerview里圆角不一致的问题
                                     Resources res=null;
                                     if(option.context!=null){
                                         res=option.context.getResources();
