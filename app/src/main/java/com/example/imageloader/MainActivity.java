@@ -73,24 +73,22 @@ public class MainActivity extends AppCompatActivity {
         ImageLoader.getInstance().loadImage(this,option);
 
 
-        ImageOption option1=new ImageOption.Builder().url("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fu001.sy1114.com%2F20170618%2Fdf722f90fe846b8d9986dcd7daa6ccc4.gif&refer=http%3A%2F%2Fu001.sy1114.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1623831963&t=82781bdeb5d76eb7e72c68b4728c92a4")
+
+        ImageLoader.getInstance().url("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fu001.sy1114.com%2F20170618%2Fdf722f90fe846b8d9986dcd7daa6ccc4.gif&refer=http%3A%2F%2Fu001.sy1114.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1623831963&t=82781bdeb5d76eb7e72c68b4728c92a4")
                 .imageView(iv1)
+                .context(this)
                 .placeholder(R.drawable.placeholder)
                 .errorResourceId(R.drawable.error)
                 .autoPlayGif(true)
                 .roundAsCircle(true)
                 .roundingBorderColor(0xffffffff)
-                .roundingBorderWidth(20)
-                .build();
-        ImageLoader.getInstance().loadImage(this,option1);
+                .roundingBorderWidth(20).loadImage(this);
 
-        ImageOption option2=new ImageOption.Builder().resId(R.drawable.yz)
+        ImageLoader.getInstance().resId(R.drawable.yz)
                 .imageView(iv2)
                 .placeholder(R.drawable.placeholder)
                 .errorResourceId(R.drawable.error)
-                .radiusDp(10)
-                .build();
-        ImageLoader.getInstance().loadImage(this,option2);
+                .radiusDp(10).loadImage(this);
 
     }
 

@@ -4,8 +4,10 @@ package com.allfootball.news.imageloader;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.allfootball.news.imageloader.glide.GlideImageLoaderStrategy;
+import com.allfootball.news.imageloader.progress.OnProgressListener;
 
 import java.io.File;
 
@@ -123,6 +125,84 @@ public class ImageLoader {
         }
         return mStrategy.getCachedOnDisk(context, url, listener);
     }
+
+
+
+
+
+
+
+    public ImageOption.Builder context(Context context) {
+        return new ImageOption.Builder().context(context);
+    }
+
+    public ImageOption.Builder url(String url) {
+        return new ImageOption.Builder().url(url);
+    }
+
+    public ImageOption.Builder placeholder(int placeholder) {
+        return new ImageOption.Builder().placeholder(placeholder);
+    }
+    public ImageOption.Builder resId(int resId) {
+        return new ImageOption.Builder().resId(resId);
+    }
+
+    public ImageOption.Builder imageView(ImageView imageView) {
+        return new ImageOption.Builder().imageView(imageView);
+    }
+
+    public ImageOption.Builder roundAsCircle(boolean roundAsCircle) {
+        return new ImageOption.Builder().roundAsCircle(roundAsCircle);
+    }
+
+    public ImageOption.Builder radius(float radius) {
+        return new ImageOption.Builder().radius(radius);
+    }
+    public ImageOption.Builder radiusDp(float radiusDp) {
+        return new ImageOption.Builder().radiusDp(radiusDp);
+    }
+
+    public ImageOption.Builder scaleType(int scaleType) {
+        return new ImageOption.Builder().scaleType(scaleType);
+    }
+
+    public ImageOption.Builder autoPlayGif(boolean autoPlayGif) {
+        return new ImageOption.Builder().autoPlayGif(autoPlayGif);
+    }
+
+
+    public ImageOption.Builder file(File file) {
+        return new ImageOption.Builder().file(file);
+    }
+
+    public ImageOption.Builder errorResourceId(int errorResourceId) {
+        return new ImageOption.Builder().errorResourceId(errorResourceId);
+    }
+
+    public ImageOption.Builder listener(ImageLoader.ImageListener listener) {
+        return new ImageOption.Builder().listener(listener);
+    }
+
+    public ImageOption.Builder urlArray(String urls[]) {
+        return new ImageOption.Builder().urlArray(urls);
+    }
+    public ImageOption.Builder timeOutMillisecond(int timeOutMillisecond) {
+        return new ImageOption.Builder().timeOutMillisecond(timeOutMillisecond);
+    }
+    public ImageOption.Builder setOnProgressListener(OnProgressListener onProgressListener) {
+        return new ImageOption.Builder().setOnProgressListener(onProgressListener);
+    }
+    public ImageOption.Builder cornerType(int  cornerType) {
+        return new ImageOption.Builder().cornerType(cornerType);
+    }
+    public ImageOption.Builder roundingBorderWidth(int  roundingBorderWidth) {
+        return new ImageOption.Builder().roundingBorderWidth(roundingBorderWidth);
+    }
+    public ImageOption.Builder roundingBorderColor(int  roundingBorderColor) {
+        return new ImageOption.Builder().roundingBorderColor(roundingBorderColor);
+    }
+
+
 
     public static interface BaseImageListener {
 

@@ -1,6 +1,7 @@
 package com.allfootball.news.imageloader;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.allfootball.news.imageloader.glide.RoundCornersTransformation;
@@ -28,7 +29,6 @@ public class ImageOption {
     public int roundingBorderWidth;//圆形图片边框大小
     public int roundingBorderColor;//圆形图片边框颜色
     public int resId;//如果没有网络图片则加载的本地图片
-    public boolean radiusStrong;//增强版圆角，recyclerview可能会出现圆角不一致的问题，可以设置这个属性
 
 
     private ImageOption(Builder builder) {
@@ -51,7 +51,6 @@ public class ImageOption {
         this.roundingBorderColor=builder.roundingBorderColor;
         this.resId=builder.resId;
         this.radiusDp=builder.radiusDp;
-        this.radiusStrong=builder.radiusStrong;
     }
 
     public static class Builder {
@@ -74,7 +73,6 @@ public class ImageOption {
         int roundingBorderColor;
         int resId;
         float radiusDp;//圆角，单位px
-        boolean radiusStrong;
         public Builder context(Context context) {
             this.context = context;
 
@@ -112,10 +110,6 @@ public class ImageOption {
         }
         public Builder radiusDp(float radiusDp) {
             this.radiusDp = radiusDp;
-            return this;
-        }
-        public Builder radiusStrong(boolean radiusStrong) {
-            this.radiusStrong = radiusStrong;
             return this;
         }
 
@@ -174,7 +168,13 @@ public class ImageOption {
         public ImageOption build() {
             return new ImageOption(this);
         }
+        public void loadImage( Context context) {
+            if (context == null){
+                return;
+            }
+
+            ImageLoader.getInstance().loadImage(context,new ImageOption(this));
+        }
 
     }
-
 }
