@@ -16,4 +16,4 @@
  
  .roundingBorderColor(0xffffffff)
  
- .roundingBorderWidth(20).loadImage(this);
+ .roundingBorderWidth(20).loadImage(context);
