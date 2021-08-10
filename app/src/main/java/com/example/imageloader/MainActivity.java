@@ -2,6 +2,7 @@ package com.example.imageloader;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +25,13 @@ public class MainActivity extends AppCompatActivity {
         ImageView imageView=findViewById(R.id.img);
         ImageView iv1=findViewById(R.id.img1);
         ImageView iv2=findViewById(R.id.img2);
+        iv2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this,TActivity.class);
+                startActivity(intent);
+            }
+        });
         CircleProgressView circleProgressView=findViewById(R.id.progressView);
 
         ImageLoader.getInstance().init(new ImageConfig.Builder().strategyType(ImageLoader.STRATEGY_TYPE.GLIDE).build());
@@ -33,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         ImageOption option=new ImageOption.Builder().url("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhiphotos.baidu.com%2Ffeed%2Fpic%2Fitem%2Fa686c9177f3e67093183c94037c79f3df9dc558a.jpg&refer=http%3A%2F%2Fhiphotos.baidu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1623831963&t=4f2d32725e0a946cc7303c098b52bc1d")
                 .radius(100)
+                .imageView(imageView)
                 .cornerType(RoundCornersTransformation.CornerType.LEFT)
 //                .imageView(imageView)
                 .placeholder(R.drawable.placeholder)

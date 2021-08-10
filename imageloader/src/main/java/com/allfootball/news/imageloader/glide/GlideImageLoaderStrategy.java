@@ -35,10 +35,14 @@ import com.bumptech.glide.load.resource.bitmap.FitCenter;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.target.ImageViewTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.target.ViewTarget;
 import com.bumptech.glide.request.transition.Transition;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -223,13 +227,13 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
                     .into(option.imageView);
             return;
         }
-        final float tempRadius=radius;
         Glide.with(context).load(option.url).apply(requestOptions)
-                .into(new SimpleTarget<Drawable>() {
+                .into(new ImageViewTarget<Drawable>(option.imageView) {
+
                     @Override
                     public void onResourceReady(@NonNull Drawable resource,
                                                 @Nullable Transition<? super Drawable> transition) {
-
+                        super.onResourceReady(resource, transition);
                         if (resource instanceof GifDrawable) {
 
                             GifDrawable gifDrawable = (GifDrawable) resource;
@@ -254,20 +258,7 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
                             // Do things with GIF here.
                         } else {
                             if (option.imageView != null) {
-                                if (option.radiusStrong && tempRadius > 0) {
-                                    //修复在recyclerview里圆角不一致的问题
-                                    Resources res = null;
-                                    if (option.imageView.getContext() != null) {
-                                        res = option.imageView.getContext().getResources();
-                                    }
-                                    BitmapDrawable bd = (BitmapDrawable) resource;
-                                    RoundedBitmapDrawable circularBitmapDrawable =
-                                            RoundedBitmapDrawableFactory.create(res, bd.getBitmap());
-                                    circularBitmapDrawable.setCornerRadius(tempRadius);
-                                    option.imageView.setImageDrawable(circularBitmapDrawable);
-                                } else {
-                                    option.imageView.setImageDrawable(resource);
-                                }
+                                option.imageView.setImageDrawable(resource);
 
                                 setBorder(option);
                             }
@@ -275,14 +266,12 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
                                 option.listener.onSuccess(resource, false);
                             }
                         }
-
                     }
 
                     @Override
-                    public void onLoadStarted(@Nullable Drawable placeholder) {
-                        super.onLoadStarted(placeholder);
+                    protected void setResource(@Nullable Drawable resource) {
                         if (option.imageView != null) {
-                            option.imageView.setImageDrawable(placeholder);
+                            option.imageView.setImageDrawable(resource);
                         }
                     }
 
@@ -297,56 +286,15 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
                         }
                     }
                 });
-//                .into(new ImageViewTarget<Drawable>(option.imageView) {
-//
-//                    @Override
-//                    public void onResourceReady(@NonNull Drawable resource,
-//                                                @Nullable Transition<? super Drawable> transition) {
-//                        super.onResourceReady(resource, transition);
-//                        if (resource instanceof GifDrawable) {
-//
-//                            GifDrawable gifDrawable = (GifDrawable) resource;
-//
-//                            if (option.imageView != null) {
-//                                if (option.autoPlayGif) {
-//                                    gifDrawable.start();
-//                                    Log.i(TAG, "gif frame index:" + gifDrawable.getFrameIndex());
-//                                    Log.i(TAG, "gif frame is running:" + gifDrawable.isRunning());
-//                                    if (!gifDrawable.isRunning() && gifDrawable.getFrameIndex() > -1) {
-//                                        gifDrawable.startFromFirstFrame();
-//                                    }
-//
-//                                }
-//                                option.imageView.setImageDrawable(gifDrawable);
-//                            }
-//
-//                            if (option.listener != null) {
-//                                option.listener.onSuccess(resource, true);
-//                            }
-//                            // Do things with GIF here.
-//                        } else {
-//                            if (option.imageView != null) {
-//                                option.imageView.setImageDrawable(resource);
-//                            }
-//                            if (option.listener != null) {
-//                                option.listener.onSuccess(resource, false);
-//                            }
-//                        }
-//                    }
-//
-//                    @Override
-//                    protected void setResource(@Nullable Drawable resource) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
-//                        super.onLoadFailed(errorDrawable);
-//                        if (option.listener != null) {
-//                            option.listener.onFail();
-//                        }
-//                    }
-//                });
+//        .into(new CustomTarget<Bitmap>() {
+//            @Override
+//            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+//                imageView.setImageBitmap(resource);
+//                imageView.buildDrawingCache();
+//            }
+//            @Override
+//            public void onLoadCleared(@Nullable Drawable placeholder) { }
+//        });
 
     }
 
@@ -488,14 +436,8 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
                                       float roundedCornerRadius, int scleType, boolean autoPlayGif, int cornerType) {
         RequestOptions options = new RequestOptions();
         if (((int) roundedCornerRadius) > 0) {
-            if (cornerType > 0) {
-                RoundCornersTransformation transformation = new RoundCornersTransformation(context, roundedCornerRadius, cornerType);
-                options.transforms(new CenterCrop(), transformation);
-            } else {
-                options.transform(new CenterCrop(),new RoundedCorners((int) roundedCornerRadius));
-            }
-
-
+            RoundCornersTransformation transform = new RoundCornersTransformation(context, roundedCornerRadius, cornerType);
+            options.transform(new CenterCrop(), transform);
         } else {
 
             switch (scleType) {
