@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
         ImageOption option=new ImageOption.Builder().url("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhiphotos.baidu.com%2Ffeed%2Fpic%2Fitem%2Fa686c9177f3e67093183c94037c79f3df9dc558a.jpg&refer=http%3A%2F%2Fhiphotos.baidu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1623831963&t=4f2d32725e0a946cc7303c098b52bc1d")
                 .radius(100)
-                .imageView(imageView)
                 .cornerType(RoundCornersTransformation.CornerType.LEFT)
 //                .imageView(imageView)
                 .placeholder(R.drawable.placeholder)
@@ -51,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onProgress(boolean isComplete, int percentage, long bytesRead, long totalBytes) {
                         Log.e("asdf","percent:"+percentage);
                         circleProgressView.setProgress(percentage);
+                        circleProgressView.setVisibility(View.VISIBLE);
                     }
                 })
                 .listener(new ImageLoader.ImageListener(){
@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onFail() {
                         super.onFail();
+                        circleProgressView.setVisibility(View.GONE);
                         Log.e("asdf","onFail");
-                        imageView.setVisibility(View.VISIBLE);
                     }
                 })
                 .build();

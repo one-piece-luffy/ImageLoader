@@ -22,18 +22,19 @@
         android:layout_marginLeft="100dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintLeft_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"/>
     <ImageView
         android:id="@+id/img1"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintLeft_toLeftOf="@+id/img"
         app:layout_constraintTop_toBottomOf="@+id/img"/>
     <ImageView
         android:id="@+id/img2"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_marginTop="10dp"
         android:scaleType="centerCrop"
         android:background="#77afbaff"
         app:layout_constraintLeft_toLeftOf="@+id/img1"
@@ -41,13 +42,12 @@
 
     <com.allfootball.news.imageloader.progress.CircleProgressView
         android:id="@+id/progressView"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginLeft="100dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintLeft_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:progress="0"
         android:visibility="gone"
         app:cpv_innerPadding="2dp"
