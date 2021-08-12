@@ -30,6 +30,8 @@
 -keep class com.bumptech.glide.load.data.ParcelFileDescriptorRewinder$InternalRewinder {
   *** rewind();
 }
+-keep class com.allfootball.news.imageloader.glide.OkHttpAppGlideModule
+-dontwarn com.allfootball.news.imageloader.glide.OkHttpAppGlideModule
 
 # for DexGuard only
 #-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
