@@ -31,6 +31,10 @@ import javax.net.ssl.X509TrustManager;
 
 import okhttp3.OkHttpClient;
 
+/**
+ * glide 使用文档
+ * https://muyangmin.github.io/glide-docs-cn/doc/configuration.html
+ */
 @GlideModule
 public class OkHttpAppGlideModule extends AppGlideModule {
 
