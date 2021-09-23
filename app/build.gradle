@@ -49,8 +49,8 @@ dependencies {
 
     //glide的各种transformations，包括高斯模糊
     api 'jp.wasabeef:glide-transformations:4.3.0'
-//    implementation 'com.github.one-piece-luffy:ImageLoader:1.1'
 
+//    implementation 'com.github.one-piece-luffy:ImageLoader:2.1'
     api project(':imageloader')
 
 }
