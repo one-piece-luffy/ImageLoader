@@ -16,8 +16,6 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 
 import com.allfootball.news.imageloader.R;
 import com.allfootball.news.imageloader.constant.ImageConstant;
@@ -219,8 +217,7 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
         if (option.radiusDp > 0) {
             radius = ImageLoaderUtil.dip2px(context, option.radiusDp);
         }
-        RequestOptions requestOptions = getOptions(context, option.placeholder, option.errorResourceId, option.roundAsCircle,
-                radius, option.scaleType, option.autoPlayGif, option.cornerType);
+        RequestOptions requestOptions = getOptions(context, radius, option);
 
         if(TextUtils.isEmpty(option.url)){
             Glide.with(context).load(option.resId).apply(requestOptions)
@@ -432,15 +429,16 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
     }
 
     @SuppressLint("CheckResult")
-    private RequestOptions getOptions(Context context, int placeholder, int errorResourceId, boolean roundAsCircle,
-                                      float roundedCornerRadius, int scleType, boolean autoPlayGif, int cornerType) {
+    private RequestOptions getOptions(Context context,  float roundedCornerRadius, ImageOption imageOption) {
         RequestOptions options = new RequestOptions();
-        if (((int) roundedCornerRadius) > 0) {
-            RoundCornersTransformation transform = new RoundCornersTransformation(context, roundedCornerRadius, cornerType);
+        if(imageOption.transformation!=null){
+            options.transform(imageOption.transformation);
+        }else if (((int) roundedCornerRadius) > 0) {
+            RoundCornersTransformation transform = new RoundCornersTransformation(context, roundedCornerRadius, imageOption.cornerType);
             options.transform(new CenterCrop(), transform);
         } else {
 
-            switch (scleType) {
+            switch (imageOption.scaleType) {
                 case -1:
                     break;
                 case 0:
@@ -468,11 +466,11 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
             }
         }
 
-        options.placeholder(placeholder).error(errorResourceId);
-        if (!autoPlayGif) {
+        options.placeholder(imageOption.placeholder).error(imageOption.errorResourceId);
+        if (!imageOption.autoPlayGif) {
             options.dontAnimate();
         }
-        if (roundAsCircle) {
+        if (imageOption.roundAsCircle) {
             options.circleCrop();
         }
 

@@ -15,6 +15,10 @@ import com.allfootball.news.imageloader.progress.OnProgressListener;
 import com.allfootball.news.imageloader.ImageConfig;
 import com.allfootball.news.imageloader.ImageLoader;
 import com.allfootball.news.imageloader.ImageOption;
+import com.bumptech.glide.load.MultiTransformation;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         ImageView imageView=findViewById(R.id.img);
         ImageView iv1=findViewById(R.id.img1);
         ImageView iv2=findViewById(R.id.img2);
+        ImageView iv3=findViewById(R.id.img3);
         iv2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         ImageOption option=new ImageOption.Builder().url("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhiphotos.baidu.com%2Ffeed%2Fpic%2Fitem%2Fa686c9177f3e67093183c94037c79f3df9dc558a.jpg&refer=http%3A%2F%2Fhiphotos.baidu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1623831963&t=4f2d32725e0a946cc7303c098b52bc1d")
                 .radius(100)
+                .imageView(imageView)
                 .cornerType(RoundCornersTransformation.CornerType.LEFT)
 //                .imageView(imageView)
                 .placeholder(R.drawable.placeholder)
@@ -89,6 +95,14 @@ public class MainActivity extends AppCompatActivity {
                 .placeholder(R.drawable.placeholder)
                 .errorResourceId(R.drawable.error)
                 .radiusDp(10).loadImage(this);
+
+        //自定义效果：高斯模糊
+        ImageLoader.getInstance().resId(R.drawable.yz)
+                .imageView(iv3)
+                .transformation(new MultiTransformation(new CenterCrop(), new BlurTransformation(25, 3)))
+                .placeholder(R.drawable.placeholder)
+                .errorResourceId(R.drawable.error)
+                .loadImage(this);
 
     }
 

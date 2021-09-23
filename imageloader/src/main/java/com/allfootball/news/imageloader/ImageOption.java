@@ -1,11 +1,14 @@
 package com.allfootball.news.imageloader;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.widget.ImageView;
 
 import com.allfootball.news.imageloader.glide.RoundCornersTransformation;
 import com.allfootball.news.imageloader.progress.OnProgressListener;
+import com.bumptech.glide.load.Transformation;
+import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 
 import java.io.File;
 
@@ -29,6 +32,7 @@ public class ImageOption {
     public int roundingBorderWidth;//圆形图片边框大小
     public int roundingBorderColor;//圆形图片边框颜色
     public int resId;//如果没有网络图片则加载的本地图片
+    public Transformation<Bitmap> transformation;//自定义tansformation
 
 
     private ImageOption(Builder builder) {
@@ -51,6 +55,7 @@ public class ImageOption {
         this.roundingBorderColor=builder.roundingBorderColor;
         this.resId=builder.resId;
         this.radiusDp=builder.radiusDp;
+        this.transformation=builder.transformation;
     }
 
     public static class Builder {
@@ -73,6 +78,7 @@ public class ImageOption {
         int roundingBorderColor;
         int resId;
         float radiusDp;//圆角，单位px
+        Transformation<Bitmap> transformation;
         public Builder context(Context context) {
             this.context = context;
 
@@ -161,6 +167,10 @@ public class ImageOption {
         }
         public Builder roundingBorderColor(int  roundingBorderColor) {
             this.roundingBorderColor = roundingBorderColor;
+            return this;
+        }
+        public Builder transformation( Transformation<Bitmap>  transformation) {
+            this.transformation = transformation;
             return this;
         }
 

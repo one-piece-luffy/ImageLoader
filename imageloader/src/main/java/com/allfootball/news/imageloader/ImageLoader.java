@@ -2,12 +2,14 @@
 package com.allfootball.news.imageloader;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.widget.ImageView;
 
 import com.allfootball.news.imageloader.glide.GlideImageLoaderStrategy;
 import com.allfootball.news.imageloader.progress.OnProgressListener;
+import com.bumptech.glide.load.Transformation;
 
 import java.io.File;
 
@@ -201,7 +203,9 @@ public class ImageLoader {
     public ImageOption.Builder roundingBorderColor(int  roundingBorderColor) {
         return new ImageOption.Builder().roundingBorderColor(roundingBorderColor);
     }
-
+    public ImageOption.Builder transformation(Transformation<Bitmap>  transformation) {
+        return new ImageOption.Builder().transformation(transformation);
+    }
 
 
     public static interface BaseImageListener {
