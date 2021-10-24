@@ -156,10 +156,6 @@ public class ImageLoader {
     public ImageOption.Builder roundAsCircle(boolean roundAsCircle) {
         return new ImageOption.Builder().roundAsCircle(roundAsCircle);
     }
-
-    public ImageOption.Builder radius(float radius) {
-        return new ImageOption.Builder().radius(radius);
-    }
     public ImageOption.Builder radiusDp(float radiusDp) {
         return new ImageOption.Builder().radiusDp(radiusDp);
     }

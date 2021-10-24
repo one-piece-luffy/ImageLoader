@@ -191,16 +191,15 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
 
     private void setBorder(ImageOption option){
         if (option.roundingBorderWidth > 0) {
+            int boarder =  ImageLoaderUtil.dip2px(option.context, option.roundingBorderWidth);
             GradientDrawable drawable = new GradientDrawable();
 
-            drawable.setStroke(option.roundingBorderWidth, option.roundingBorderColor);
+            drawable.setStroke(boarder, option.roundingBorderColor);
             if (option.roundAsCircle) {
                 drawable.setShape(GradientDrawable.OVAL);
             }
             option.imageView.setBackground(drawable);
-            option.imageView.setPadding(option.roundingBorderWidth, option.roundingBorderWidth, option.roundingBorderWidth,
-
-                    option.roundingBorderWidth);
+            option.imageView.setPadding(boarder,boarder,boarder,boarder);
         }
     }
     private void startLoad(Context context, ImageOption option) {
@@ -213,7 +212,7 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
         ProgressManager.addListener(tempUrl, option.onProgressListener);
 
 
-        float radius = option.roundedCornerRadius;
+        float radius = 0;
         if (option.radiusDp > 0) {
             radius = ImageLoaderUtil.dip2px(context, option.radiusDp);
         }

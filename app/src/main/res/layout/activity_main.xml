@@ -36,9 +36,11 @@
         android:layout_height="100dp"
         android:layout_marginTop="10dp"
         android:scaleType="centerCrop"
-        android:background="#77afbaff"
+        android:background="#fff"
         app:layout_constraintLeft_toLeftOf="@+id/img1"
         app:layout_constraintTop_toBottomOf="@+id/img1"/>
+
+
 
     <com.allfootball.news.imageloader.progress.CircleProgressView
         android:id="@+id/progressView"
@@ -61,9 +63,19 @@
         android:id="@+id/img3"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="10dp"
         android:scaleType="centerCrop"
         android:background="#77afbaff"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@+id/img2"
+        app:layout_constraintTop_toTopOf="@+id/img2"/>
+    <ImageView
+        android:id="@+id/img4"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:scaleType="centerCrop"
+        android:background="#fff"
         app:layout_constraintLeft_toLeftOf="@+id/img2"
         app:layout_constraintTop_toBottomOf="@+id/img2"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

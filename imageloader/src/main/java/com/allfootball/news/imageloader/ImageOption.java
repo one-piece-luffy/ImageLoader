@@ -18,8 +18,7 @@ public class ImageOption {
     public int placeholder;//加载过程的图片
     public ImageView imageView;
     public boolean roundAsCircle;//圆形
-    public float roundedCornerRadius;//圆角，单位px
-    public float radiusDp;//圆角，单位px
+    public float radiusDp;//圆角，单位dp
     public int scaleType;//缩放类型
     public boolean autoPlayGif;//自动播放gif图片
     public File file;//加载文件图片
@@ -29,7 +28,7 @@ public class ImageOption {
     public String[] urls;//加载多张图片，如果第一张失败则加载第二张图，如果第二张失败则加载弟三张...
     public int timeOutMillisecond;//超时时间
     public int cornerType;//圆角类型：左、上、右、下  ( RoundCornersTransformation.CornerType.LEFT_TOP )
-    public int roundingBorderWidth;//圆形图片边框大小
+    public int roundingBorderWidth;//圆形图片边框大小，单位dp
     public int roundingBorderColor;//圆形图片边框颜色
     public int resId;//如果没有网络图片则加载的本地图片
     public Transformation<Bitmap> transformation;//自定义tansformation
@@ -42,7 +41,6 @@ public class ImageOption {
         this.imageView = builder.imageView;
 
         this.roundAsCircle = builder.roundAsCircle;
-        this.roundedCornerRadius = builder.roundedCornerRadius;
         this.scaleType = builder.scaleType;
         this.autoPlayGif = builder.autoPlayGif;
         this.file = builder.file;
@@ -64,7 +62,6 @@ public class ImageOption {
         private int placeholder;
         private ImageView imageView;
         private boolean roundAsCircle;
-        private float roundedCornerRadius;
         private int scaleType;
         private boolean autoPlayGif;
         File file;
@@ -110,10 +107,6 @@ public class ImageOption {
             return this;
         }
 
-        public Builder radius(float roundedCornerRadius) {
-            this.roundedCornerRadius = roundedCornerRadius;
-            return this;
-        }
         public Builder radiusDp(float radiusDp) {
             this.radiusDp = radiusDp;
             return this;
