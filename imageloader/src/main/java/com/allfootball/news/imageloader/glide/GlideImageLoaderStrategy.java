@@ -2,6 +2,7 @@
 package com.allfootball.news.imageloader.glide;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -203,6 +204,13 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
         }
     }
     private void startLoad(Context context, ImageOption option) {
+        if(context==null)
+            return;
+        if(context instanceof Activity){
+            Activity activity= (Activity) context;
+            if(activity==null||activity.isFinishing())
+                return;
+        }
         String tempUrl = option.url;
         if (!TextUtils.isEmpty(tempUrl) && tempUrl.endsWith(ImageConstant.WEBP_SUFFIX)) {
 
@@ -230,6 +238,13 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
                     public void onResourceReady(@NonNull Drawable resource,
                                                 @Nullable Transition<? super Drawable> transition) {
                         super.onResourceReady(resource, transition);
+                        if(context==null)
+                            return;
+                        if(context instanceof Activity){
+                            Activity activity= (Activity) context;
+                            if(activity==null||activity.isFinishing())
+                                return;
+                        }
                         if (resource instanceof GifDrawable) {
 
                             GifDrawable gifDrawable = (GifDrawable) resource;
