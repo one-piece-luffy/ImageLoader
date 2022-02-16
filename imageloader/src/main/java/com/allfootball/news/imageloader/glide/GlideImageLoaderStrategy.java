@@ -208,7 +208,7 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
             return;
         if(context instanceof Activity){
             Activity activity= (Activity) context;
-            if(activity==null||activity.isFinishing())
+            if(activity.isDestroyed()||activity.isFinishing())
                 return;
         }
         String tempUrl = option.url;
@@ -242,7 +242,7 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
                             return;
                         if(context instanceof Activity){
                             Activity activity= (Activity) context;
-                            if(activity==null||activity.isFinishing())
+                            if(activity.isDestroyed()||activity.isFinishing())
                                 return;
                         }
                         if (resource instanceof GifDrawable) {
