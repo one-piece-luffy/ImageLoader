@@ -2,10 +2,13 @@ package com.allfootball.news.imageloader.progress;
 
 import android.text.TextUtils;
 
+import com.allfootball.news.imageloader.util.SSLUtil;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -25,26 +28,32 @@ public class ProgressManager {
 
     public static OkHttpClient getOkHttpClient() {
         if (okHttpClient == null) {
-            okHttpClient = new OkHttpClient.Builder()
-                    .addNetworkInterceptor(new Interceptor() {
-                        @Override
-                        public Response intercept(Chain chain) throws IOException {
-                            Request request = chain.request();
-                            Response response = chain.proceed(request);
-                            return response.newBuilder()
-                                    .body(new ProgressResponseBody(request.url().toString(),
-                                            LISTENER, response.body()))
-                                    .build();
-                        }
-                    }
+            OkHttpClient.Builder builder = new OkHttpClient.Builder();
+            builder.readTimeout(15, TimeUnit.SECONDS);//读取超时
+            builder.connectTimeout(15, TimeUnit.SECONDS);//连接超时
+            builder.writeTimeout(15, TimeUnit.SECONDS);//写入超时
+            //支持HTTPS请求，跳过证书验证
+            builder.hostnameVerifier(SSLUtil.getInstance().getHostnameVerifier());
+            builder.sslSocketFactory(SSLUtil.getInstance().getSSLSocketFactory(), SSLUtil.getInstance().getTrustManager());
+//        builder.proxy(Proxy.NO_PROXY);
+            builder.addNetworkInterceptor(new Interceptor() {
+                @Override
+                public Response intercept(Chain chain) throws IOException {
+                    Request request = chain.request();
+                    Response response = chain.proceed(request);
+                    return response.newBuilder()
+                            .body(new ProgressResponseBody(request.url().toString(),
+                                    LISTENER, response.body()))
+                            .build();
+                }
+            });
 
-                    )
-                    .build();
+            okHttpClient = builder.build();
         }
         return okHttpClient;
     }
 
-    public static final ProgressResponseBody.InternalProgressListener LISTENER = new ProgressResponseBody.InternalProgressListener(){
+    public static final ProgressResponseBody.InternalProgressListener LISTENER = new ProgressResponseBody.InternalProgressListener() {
 
         @Override
         public void onProgress(String url, long bytesRead, long totalBytes) {

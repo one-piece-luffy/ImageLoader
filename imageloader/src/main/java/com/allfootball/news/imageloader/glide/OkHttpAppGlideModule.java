@@ -1,5 +1,7 @@
 package com.allfootball.news.imageloader.glide;
 
+import static com.allfootball.news.imageloader.progress.ProgressManager.LISTENER;
+
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.Context;
@@ -9,6 +11,8 @@ import androidx.annotation.NonNull;
 
 import com.allfootball.news.imageloader.fresco.FrescoInterceptor;
 import com.allfootball.news.imageloader.progress.ProgressInterceptor;
+import com.allfootball.news.imageloader.progress.ProgressManager;
+import com.allfootball.news.imageloader.progress.ProgressResponseBody;
 import com.allfootball.news.imageloader.util.SSLUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
@@ -22,6 +26,7 @@ import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.module.AppGlideModule;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.Proxy;
 import java.security.SecureRandom;
@@ -36,7 +41,10 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * glide 使用文档
@@ -82,19 +90,8 @@ public class OkHttpAppGlideModule extends AppGlideModule {
     @Override
     public void registerComponents(@NonNull Context context, @NonNull Glide glide, @NonNull Registry registry) {
         super.registerComponents(context, glide, registry);
-        //设置请求方式为okhttp 并设置okhttpClient的证书及超时时间
-        OkHttpClient.Builder ClientBuilder = new OkHttpClient.Builder();
-        ClientBuilder.readTimeout(15, TimeUnit.SECONDS);//读取超时
-        ClientBuilder.connectTimeout(15, TimeUnit.SECONDS);//连接超时
-        ClientBuilder.writeTimeout(15, TimeUnit.SECONDS);//写入超时
-//        ClientBuilder.proxy(Proxy.NO_PROXY);
 
-        //支持HTTPS请求，跳过证书验证
-        ClientBuilder.hostnameVerifier(SSLUtil.getInstance().getHostnameVerifier());
-        ClientBuilder.sslSocketFactory(SSLUtil.getInstance().getSSLSocketFactory(), SSLUtil.getInstance().getTrustManager());
-
-        OkHttpClient mOkHttpClient = ClientBuilder.build();
-        OkHttpUrlLoader.Factory factory = new OkHttpUrlLoader.Factory(mOkHttpClient);
+        OkHttpUrlLoader.Factory factory = new OkHttpUrlLoader.Factory(ProgressManager.getOkHttpClient());
         registry.replace(GlideUrl.class, InputStream.class, factory);
     }
 
