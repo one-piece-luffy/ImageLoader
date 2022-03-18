@@ -2,6 +2,7 @@ package com.allfootball.news.imageloader;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -32,6 +33,7 @@ public class ImageOption {
     public int roundingBorderColor;//圆形图片边框颜色
     public int resId;//如果没有网络图片则加载的本地图片
     public Transformation<Bitmap> transformation;//自定义tansformation
+    public Drawable drawable;
 
 
     private ImageOption(Builder builder) {
@@ -54,6 +56,7 @@ public class ImageOption {
         this.resId=builder.resId;
         this.radiusDp=builder.radiusDp;
         this.transformation=builder.transformation;
+        this.drawable=builder.drawable;
     }
 
     public static class Builder {
@@ -64,6 +67,7 @@ public class ImageOption {
         private boolean roundAsCircle;
         private int scaleType;
         private boolean autoPlayGif;
+        private Drawable drawable;
         File file;
         int errorResourceId;
         private String[] urls;
@@ -164,6 +168,10 @@ public class ImageOption {
         }
         public Builder transformation( Transformation<Bitmap>  transformation) {
             this.transformation = transformation;
+            return this;
+        }
+        public Builder drawable(Drawable drawable) {
+            this.drawable = drawable;
             return this;
         }
 

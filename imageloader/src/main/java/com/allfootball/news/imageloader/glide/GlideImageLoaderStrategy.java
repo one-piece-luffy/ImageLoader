@@ -227,8 +227,14 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
         RequestOptions requestOptions = getOptions(context, radius, option);
 
         if(TextUtils.isEmpty(option.url)){
-            Glide.with(context).load(option.resId).apply(requestOptions)
-                    .into(option.imageView);
+            if (option.drawable != null) {
+                Glide.with(context).load(option.drawable).apply(requestOptions)
+                        .into(option.imageView);
+            } else {
+                Glide.with(context).load(option.resId).apply(requestOptions)
+                        .into(option.imageView);
+            }
+
             return;
         }
         Glide.with(context).load(option.url).apply(requestOptions)

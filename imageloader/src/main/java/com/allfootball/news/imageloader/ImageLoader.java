@@ -202,6 +202,9 @@ public class ImageLoader {
     public ImageOption.Builder transformation(Transformation<Bitmap>  transformation) {
         return new ImageOption.Builder().transformation(transformation);
     }
+    public ImageOption.Builder drawable(Drawable drawable) {
+        return new ImageOption.Builder().drawable(drawable);
+    }
 
 
     public static interface BaseImageListener {
