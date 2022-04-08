@@ -1,7 +1,7 @@
 package com.allfootball.news.imageloader.constant;
 
 /**
- * Created by lihaiyi on 2018/6/26.
+ * Created by baofu on 2018/6/26.
  */
 
 public class ImageConstant {

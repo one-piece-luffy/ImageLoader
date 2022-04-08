@@ -14,7 +14,7 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 /**
- * Created by lihaiyi on 2018/1/10.
+ * Created by baofu on 2018/1/10.
  */
 
 public class UnifyImageView extends ImageView {

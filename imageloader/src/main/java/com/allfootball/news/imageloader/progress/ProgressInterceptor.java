@@ -11,7 +11,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Created by lihaiyi on 2018/6/22.
+ * Created by baofu on 2018/6/22.
  */
 
 public class ProgressInterceptor implements Interceptor {

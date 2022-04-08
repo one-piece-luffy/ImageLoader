@@ -12,7 +12,7 @@ import okhttp3.Interceptor;
 import okhttp3.Response;
 
 /**
- * Created by lihaiyi on 2018/3/14.
+ * Created by baofu on 2018/3/14.
  */
 
 public class FrescoInterceptor implements Interceptor {

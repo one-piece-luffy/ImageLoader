@@ -7,7 +7,7 @@ import android.content.Context;
 import java.io.File;
 
 /**
- * Created by lihaiyi on 2018/6/14.
+ * Created by baofu on 2018/6/14.
  */
 
 public interface BaseImageStrategy {

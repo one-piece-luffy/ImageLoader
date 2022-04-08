@@ -56,7 +56,7 @@
 //import okhttp3.OkHttpClient;
 //
 ///**
-// * Created by lihaiyi on 2018/6/14.
+// * Created by baofu on 2018/6/14.
 // */
 //
 //public class FrescoImageLoaderStrategy implements BaseImageLoaderStrategy {

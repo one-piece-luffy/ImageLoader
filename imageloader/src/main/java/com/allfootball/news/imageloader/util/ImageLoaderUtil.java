@@ -3,7 +3,7 @@ package com.allfootball.news.imageloader.util;
 import android.content.Context;
 
 /**
- * Created by lihaiyi on 2018/6/26.
+ * Created by baofu on 2018/6/26.
  */
 
 public class ImageLoaderUtil {

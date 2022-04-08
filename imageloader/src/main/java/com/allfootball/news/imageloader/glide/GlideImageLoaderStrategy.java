@@ -53,7 +53,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Created by lihaiyi on 2018/6/14.
+ * Created by baofu on 2018/6/14.
  */
 
 public class GlideImageLoaderStrategy implements BaseImageStrategy {
