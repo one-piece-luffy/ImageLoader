@@ -466,7 +466,7 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
                 case 1:
                     break;
                 case 2:
-                    options.transforms(new FitCenter());
+                    options.transform(new FitCenter());
                     break;
                 case 3:
                     break;
@@ -474,10 +474,10 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
 
                     break;
                 case 5:
-                    options.transforms(new CenterInside());
+                    options.transform(new CenterInside());
                     break;
                 case 6:
-                    options.transforms(new CenterCrop());
+                    options.transform(new CenterCrop());
                     break;
                 case 7:
                     break;

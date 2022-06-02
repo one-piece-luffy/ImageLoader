@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.allfootball.news.imageloader.constant.ScaleType;
 import com.allfootball.news.imageloader.glide.RoundCornersTransformation;
 import com.allfootball.news.imageloader.progress.CircleProgressView;
 import com.allfootball.news.imageloader.progress.OnProgressListener;
@@ -99,12 +100,14 @@ public class MainActivity extends AppCompatActivity {
                 .placeholder(R.drawable.placeholder)
                 .errorResourceId(R.drawable.error)
                 .radiusDp(10)
+
                 .loadImage(this);
         //圆角
         ImageLoader.getInstance()
 //                .url(url)
                 .resId(R.drawable.nm1)
                 .imageView(iv4)
+                .scaleType(ScaleType.FitCenter.value)
                 .cornerType(RoundCornersTransformation.CornerType.TOP)
                 .placeholder(R.drawable.placeholder)
                 .errorResourceId(R.drawable.error)
