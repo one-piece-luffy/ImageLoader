@@ -67,7 +67,13 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
 
     @Override
     public void loadImage(Context context, ImageOption option) {
-
+        if(context==null)
+            return;
+        if(context instanceof Activity){
+            Activity activity= (Activity) context;
+            if(activity.isDestroyed()||activity.isFinishing())
+                return;
+        }
         if (option.urls != null) {
             loadImage(context, option.imageView, option.timeOutMillisecond, option.urls);
         } else {
@@ -287,6 +293,13 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
 
                     @Override
                     protected void setResource(@Nullable Drawable resource) {
+                        if(context==null)
+                            return;
+                        if(context instanceof Activity){
+                            Activity activity= (Activity) context;
+                            if(activity.isDestroyed()||activity.isFinishing())
+                                return;
+                        }
                         if (option.imageView != null) {
                             option.imageView.setImageDrawable(resource);
                         }
@@ -295,6 +308,13 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
                     @Override
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
                         super.onLoadFailed(errorDrawable);
+                        if(context==null)
+                            return;
+                        if(context instanceof Activity){
+                            Activity activity= (Activity) context;
+                            if(activity.isDestroyed()||activity.isFinishing())
+                                return;
+                        }
                         if (option.imageView != null) {
                             option.imageView.setImageDrawable(errorDrawable);
                         }

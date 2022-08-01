@@ -1,5 +1,6 @@
 package com.allfootball.news.imageloader;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -183,7 +184,11 @@ public class ImageOption {
             if (context == null){
                 return;
             }
-
+            if(context instanceof Activity){
+                Activity activity= (Activity) context;
+                if(activity.isDestroyed()||activity.isFinishing())
+                    return;
+            }
             ImageLoader.getInstance().loadImage(context,new ImageOption(this));
         }
 
