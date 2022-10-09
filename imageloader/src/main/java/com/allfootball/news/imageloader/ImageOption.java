@@ -13,6 +13,7 @@ import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ImageOption {
@@ -181,6 +182,13 @@ public class ImageOption {
         }
         public Builder header(Map<String,String> header) {
             this.header = header;
+            return this;
+        }
+        public Builder addHeader(String key,String value) {
+            if(this.header==null){
+                this.header=new HashMap<>();
+            }
+            this.header.put(key,value);
             return this;
         }
 
