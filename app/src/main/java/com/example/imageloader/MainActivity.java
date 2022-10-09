@@ -19,6 +19,9 @@ import com.allfootball.news.imageloader.ImageOption;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,10 +48,14 @@ public class MainActivity extends AppCompatActivity {
 
         ImageLoader.getInstance().clearCache(this);
 
-
-        ImageOption option=new ImageOption.Builder().url("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhiphotos.baidu.com%2Ffeed%2Fpic%2Fitem%2Fa686c9177f3e67093183c94037c79f3df9dc558a.jpg&refer=http%3A%2F%2Fhiphotos.baidu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1623831963&t=4f2d32725e0a946cc7303c098b52bc1d")
+        String url1="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhiphotos.baidu.com%2Ffeed%2Fpic%2Fitem%2Fa686c9177f3e67093183c94037c79f3df9dc558a.jpg&refer=http%3A%2F%2Fhiphotos.baidu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1623831963&t=4f2d32725e0a946cc7303c098b52bc1d";
+        url1="https://mp3.haoge500.com/9kuimg/zhuanji/20161114/1b33a084d1ad0af6.jpg?x-oss-process=image/resize,m_fill,w_200,h_200,limit_0/auto-orient,0";
+        Map<String,String> header=new HashMap<>();
+        header.put("referer","https://www.zz123.com/");
+        ImageOption option=new ImageOption.Builder().url(url1)
                 .radiusDp(10)
                 .imageView(imageView)
+                .header(header)
                 .cornerType(RoundCornersTransformation.CornerType.LEFT)
 //                .imageView(imageView)
                 .placeholder(R.drawable.placeholder)

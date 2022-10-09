@@ -28,6 +28,8 @@ import com.allfootball.news.imageloader.ImageOption;
 import com.allfootball.news.imageloader.util.ImageLoaderUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.Transformation;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CenterInside;
 import com.bumptech.glide.load.resource.bitmap.FitCenter;
@@ -49,7 +51,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -67,11 +71,11 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
 
     @Override
     public void loadImage(Context context, ImageOption option) {
-        if(context==null)
+        if (context == null)
             return;
-        if(context instanceof Activity){
-            Activity activity= (Activity) context;
-            if(activity.isDestroyed()||activity.isFinishing())
+        if (context instanceof Activity) {
+            Activity activity = (Activity) context;
+            if (activity.isDestroyed() || activity.isFinishing())
                 return;
         }
         if (option.urls != null) {
@@ -167,6 +171,7 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
      */
     public void loadImage(final Context context, String url,
                           final ImageLoader.ImageListener listener) {
+
         Glide.with(context).load(url).into(new SimpleTarget<Drawable>() {
             @Override
             public void onResourceReady(@NonNull Drawable resource,
@@ -196,9 +201,9 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
     }
 
 
-    private void setBorder(ImageOption option){
+    private void setBorder(ImageOption option) {
         if (option.roundingBorderWidth > 0) {
-            int boarder =  ImageLoaderUtil.dip2px(option.context, option.roundingBorderWidth);
+            int boarder = ImageLoaderUtil.dip2px(option.context, option.roundingBorderWidth);
             GradientDrawable drawable = new GradientDrawable();
 
             drawable.setStroke(boarder, option.roundingBorderColor);
@@ -206,15 +211,16 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
                 drawable.setShape(GradientDrawable.OVAL);
             }
             option.imageView.setBackground(drawable);
-            option.imageView.setPadding(boarder,boarder,boarder,boarder);
+            option.imageView.setPadding(boarder, boarder, boarder, boarder);
         }
     }
+
     private void startLoad(Context context, ImageOption option) {
-        if(context==null)
+        if (context == null)
             return;
-        if(context instanceof Activity){
-            Activity activity= (Activity) context;
-            if(activity.isDestroyed()||activity.isFinishing())
+        if (context instanceof Activity) {
+            Activity activity = (Activity) context;
+            if (activity.isDestroyed() || activity.isFinishing())
                 return;
         }
         String tempUrl = option.url;
@@ -232,7 +238,7 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
         }
         RequestOptions requestOptions = getOptions(context, radius, option);
 
-        if(TextUtils.isEmpty(option.url)){
+        if (TextUtils.isEmpty(option.url)) {
             if (option.drawable != null) {
                 Glide.with(context).load(option.drawable).apply(requestOptions)
                         .into(option.imageView);
@@ -243,18 +249,38 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
 
             return;
         }
-        Glide.with(context).load(option.url).apply(requestOptions)
+        GlideUrl glideUrl;
+        if (option.header == null) {
+            glideUrl = new GlideUrl(option.url, new LazyHeaders.Builder()
+                    .build());
+        } else {
+            Iterator<Map.Entry<String, String>> it = option.header.entrySet().iterator();
+            LazyHeaders.Builder builder = new LazyHeaders.Builder();
+            while (it.hasNext()) {
+                Map.Entry<String, String> entry = it.next();
+                if (entry == null)
+                    continue;
+                String key = entry.getKey();
+                String value = entry.getValue();
+                if (TextUtils.isEmpty(key) || TextUtils.isEmpty(value)) {
+                    continue;
+                }
+                builder.addHeader(key, value);
+            }
+            glideUrl = new GlideUrl(option.url, builder.build());
+        }
+        Glide.with(context).load(glideUrl).apply(requestOptions)
                 .into(new ImageViewTarget<Drawable>(option.imageView) {
 
                     @Override
                     public void onResourceReady(@NonNull Drawable resource,
                                                 @Nullable Transition<? super Drawable> transition) {
                         super.onResourceReady(resource, transition);
-                        if(context==null)
+                        if (context == null)
                             return;
-                        if(context instanceof Activity){
-                            Activity activity= (Activity) context;
-                            if(activity.isDestroyed()||activity.isFinishing())
+                        if (context instanceof Activity) {
+                            Activity activity = (Activity) context;
+                            if (activity.isDestroyed() || activity.isFinishing())
                                 return;
                         }
                         if (resource instanceof GifDrawable) {
@@ -293,11 +319,11 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
 
                     @Override
                     protected void setResource(@Nullable Drawable resource) {
-                        if(context==null)
+                        if (context == null)
                             return;
-                        if(context instanceof Activity){
-                            Activity activity= (Activity) context;
-                            if(activity.isDestroyed()||activity.isFinishing())
+                        if (context instanceof Activity) {
+                            Activity activity = (Activity) context;
+                            if (activity.isDestroyed() || activity.isFinishing())
                                 return;
                         }
                         if (option.imageView != null) {
@@ -308,11 +334,11 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
                     @Override
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
                         super.onLoadFailed(errorDrawable);
-                        if(context==null)
+                        if (context == null)
                             return;
-                        if(context instanceof Activity){
-                            Activity activity= (Activity) context;
-                            if(activity.isDestroyed()||activity.isFinishing())
+                        if (context instanceof Activity) {
+                            Activity activity = (Activity) context;
+                            if (activity.isDestroyed() || activity.isFinishing())
                                 return;
                         }
                         if (option.imageView != null) {
@@ -469,11 +495,11 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
     }
 
     @SuppressLint("CheckResult")
-    private RequestOptions getOptions(Context context,  float roundedCornerRadius, ImageOption imageOption) {
+    private RequestOptions getOptions(Context context, float roundedCornerRadius, ImageOption imageOption) {
         RequestOptions options = new RequestOptions();
-        if(imageOption.transformation!=null){
+        if (imageOption.transformation != null) {
             options.transform(imageOption.transformation);
-        }else if (((int) roundedCornerRadius) > 0) {
+        } else if (((int) roundedCornerRadius) > 0) {
             RoundCornersTransformation transform = new RoundCornersTransformation(context, roundedCornerRadius, imageOption.cornerType);
             options.transform(new CenterCrop(), transform);
         } else {

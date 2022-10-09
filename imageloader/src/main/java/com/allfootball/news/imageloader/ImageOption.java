@@ -13,6 +13,7 @@ import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 
 import java.io.File;
+import java.util.Map;
 
 public class ImageOption {
     public Context context;
@@ -35,6 +36,7 @@ public class ImageOption {
     public int resId;//如果没有网络图片则加载的本地图片
     public Transformation<Bitmap> transformation;//自定义tansformation
     public Drawable drawable;
+    public Map<String,String> header;
 
 
     private ImageOption(Builder builder) {
@@ -58,6 +60,7 @@ public class ImageOption {
         this.radiusDp=builder.radiusDp;
         this.transformation=builder.transformation;
         this.drawable=builder.drawable;
+        this.header=builder.header;
     }
 
     public static class Builder {
@@ -81,6 +84,7 @@ public class ImageOption {
         int resId;
         float radiusDp;//圆角，单位px
         Transformation<Bitmap> transformation;
+        public Map<String,String> header;
         public Builder context(Context context) {
             this.context = context;
 
@@ -173,6 +177,10 @@ public class ImageOption {
         }
         public Builder drawable(Drawable drawable) {
             this.drawable = drawable;
+            return this;
+        }
+        public Builder header(Map<String,String> header) {
+            this.header = header;
             return this;
         }
 
