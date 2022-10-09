@@ -35,6 +35,7 @@ public class ProgressManager {
             //支持HTTPS请求，跳过证书验证
             builder.hostnameVerifier(SSLUtil.getInstance().getHostnameVerifier());
             builder.sslSocketFactory(SSLUtil.getInstance().getSSLSocketFactory(), SSLUtil.getInstance().getTrustManager());
+            builder .retryOnConnectionFailure(true);
 //        builder.proxy(Proxy.NO_PROXY);
             builder.addNetworkInterceptor(new Interceptor() {
                 @Override
