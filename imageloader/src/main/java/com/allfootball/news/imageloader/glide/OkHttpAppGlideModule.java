@@ -41,6 +41,7 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import okhttp3.Call;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -91,45 +92,8 @@ public class OkHttpAppGlideModule extends AppGlideModule {
     public void registerComponents(@NonNull Context context, @NonNull Glide glide, @NonNull Registry registry) {
         super.registerComponents(context, glide, registry);
 
-        OkHttpUrlLoader.Factory factory = new OkHttpUrlLoader.Factory(ProgressManager.getOkHttpClient());
+        OkHttpUrlLoader.Factory factory = new OkHttpUrlLoader.Factory((Call.Factory) ProgressManager.getOkHttpClient());
         registry.replace(GlideUrl.class, InputStream.class, factory);
-    }
-
-    /**
-     * 生成安全套接字工厂，用于https请求的证书跳过
-     *
-     * @return
-     */
-    public SSLSocketFactory createSSLSocketFactory() {
-        SSLSocketFactory ssfFactory = null;
-        try {
-            SSLContext sc = SSLContext.getInstance("TLS");
-            sc.init(null, new TrustManager[]{new TrustAllCerts()}, new SecureRandom());
-            ssfFactory = sc.getSocketFactory();
-        } catch (Exception e) {
-        }
-        return ssfFactory;
-    }
-
-    /**
-     * 用于信任所有证书
-     */
-    static class TrustAllCerts implements X509TrustManager {
-        @SuppressLint("TrustAllX509TrustManager")
-        @Override
-        public void checkClientTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
-        }
-
-        @SuppressLint("TrustAllX509TrustManager")
-        @Override
-        public void checkServerTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
-
-        }
-
-        @Override
-        public X509Certificate[] getAcceptedIssuers() {
-            return new X509Certificate[0];
-        }
     }
 
 
