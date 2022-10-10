@@ -3,6 +3,7 @@ package com.example.imageloader;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         ImageView iv2=findViewById(R.id.img2);
         ImageView iv3=findViewById(R.id.img3);
         ImageView iv4=findViewById(R.id.img4);
+        ImageView iv5=findViewById(R.id.img5);
         iv2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 .loadImage(this);
         //圆角
         ImageLoader.getInstance()
-//                .url(url)
+                .url(url1)
                 .resId(R.drawable.nm1)
                 .imageView(iv4)
                 .scaleType(ScaleType.FitCenter.value)
@@ -126,6 +128,24 @@ public class MainActivity extends AppCompatActivity {
                 .transformation(new MultiTransformation(new CenterCrop(), new BlurTransformation(25, 3)))
                 .placeholder(R.drawable.placeholder)
                 .errorResourceId(R.drawable.error)
+                .loadImage(this);
+        //bitmap
+        ImageLoader.getInstance()
+                .url(url)
+//                .resId(R.drawable.nm1)
+                .asBitmap(true)
+                .scaleType(ScaleType.FitCenter.value)
+                .cornerType(RoundCornersTransformation.CornerType.TOP)
+                .placeholder(R.drawable.placeholder)
+                .errorResourceId(R.drawable.error)
+                .radiusDp(25)
+                .listener(new ImageLoader.ImageListener(){
+                    @Override
+                    public void onBitMapSuccess(Bitmap bitmap, boolean isGif) {
+                        super.onBitMapSuccess(bitmap, isGif);
+                        iv5.setImageBitmap(bitmap);
+                    }
+                })
                 .loadImage(this);
 
     }

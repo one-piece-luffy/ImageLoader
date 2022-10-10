@@ -38,6 +38,7 @@ public class ImageOption {
     public Transformation<Bitmap> transformation;//自定义tansformation
     public Drawable drawable;
     public Map<String,String> header;
+    public boolean asBitmap;
 
 
     private ImageOption(Builder builder) {
@@ -62,6 +63,7 @@ public class ImageOption {
         this.transformation=builder.transformation;
         this.drawable=builder.drawable;
         this.header=builder.header;
+        this.asBitmap=builder.asBitmap;
     }
 
     public static class Builder {
@@ -85,7 +87,8 @@ public class ImageOption {
         int resId;
         float radiusDp;//圆角，单位px
         Transformation<Bitmap> transformation;
-        public Map<String,String> header;
+        Map<String,String> header;
+        boolean asBitmap;
         public Builder context(Context context) {
             this.context = context;
 
@@ -192,6 +195,10 @@ public class ImageOption {
             return this;
         }
 
+        public Builder asBitmap(boolean asBitmap) {
+            this.asBitmap = asBitmap;
+            return this;
+        }
 
         public ImageOption build() {
             return new ImageOption(this);

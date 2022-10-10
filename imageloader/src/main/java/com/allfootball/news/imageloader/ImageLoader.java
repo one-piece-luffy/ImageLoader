@@ -12,6 +12,7 @@ import com.allfootball.news.imageloader.progress.OnProgressListener;
 import com.bumptech.glide.load.Transformation;
 
 import java.io.File;
+import java.util.Map;
 
 /**
  * Created by baofu on 2018/6/14.
@@ -205,11 +206,20 @@ public class ImageLoader {
     public ImageOption.Builder drawable(Drawable drawable) {
         return new ImageOption.Builder().drawable(drawable);
     }
+    public ImageOption.Builder asBitmap(boolean asBitmap) {
+        return new ImageOption.Builder().asBitmap(asBitmap);
+    }
+    public ImageOption.Builder header(Map<String,String> header) {
+        return new ImageOption.Builder().header(header);
+    }
+    public ImageOption.Builder addHeader(String key,String value) {
+        return new ImageOption.Builder().addHeader(key,value);
+    }
 
 
     public static interface BaseImageListener {
 
-
+        void onBitMapSuccess(Bitmap bitmap, boolean isGif) ;
         void onSuccess(Drawable drawable, boolean isGif);
 
         void onFail();
@@ -223,6 +233,10 @@ public class ImageLoader {
 
         @Override
         public void onSuccess(Drawable drawable, boolean isGif) {
+            resourceReady = true;
+        }
+        @Override
+        public void onBitMapSuccess(Bitmap bitmap, boolean isGif) {
             resourceReady = true;
         }
 

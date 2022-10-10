@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -27,6 +28,7 @@ import com.allfootball.news.imageloader.ImageLoader;
 import com.allfootball.news.imageloader.ImageOption;
 import com.allfootball.news.imageloader.util.ImageLoaderUtil;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
@@ -243,8 +245,53 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
                 Glide.with(context).load(option.drawable).apply(requestOptions)
                         .into(option.imageView);
             } else {
-                Glide.with(context).load(option.resId).apply(requestOptions)
-                        .into(option.imageView);
+                if (option.imageView == null) {
+                    Glide.with(context).asBitmap().load(option.resId).apply(requestOptions)
+                            .into(new CustomTarget<Bitmap>() {
+                                @Override
+                                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                    if (context == null)
+                                        return;
+                                    if (context instanceof Activity) {
+                                        Activity activity = (Activity) context;
+                                        if (activity.isDestroyed() || activity.isFinishing())
+                                            return;
+                                    }
+
+                                    if (option.listener != null) {
+                                        option.listener.onBitMapSuccess(resource, false);
+                                    }
+                                }
+
+                                @Override
+                                public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                                }
+
+                                @Override
+                                public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                                    super.onLoadFailed(errorDrawable);
+                                    if (context == null)
+                                        return;
+                                    if (context instanceof Activity) {
+                                        Activity activity = (Activity) context;
+                                        if (activity.isDestroyed() || activity.isFinishing())
+                                            return;
+                                    }
+                                    if (option.imageView != null) {
+                                        option.imageView.setImageDrawable(errorDrawable);
+                                    }
+                                    if (option.listener != null) {
+                                        option.listener.onFail();
+                                    }
+                                }
+                            });
+
+                } else {
+                    Glide.with(context).asBitmap().load(option.resId).apply(requestOptions)
+                            .into(option.imageView);
+                }
+
             }
 
             return;
@@ -269,95 +316,131 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
             }
             glideUrl = new GlideUrl(option.url, builder.build());
         }
-        Glide.with(context).load(glideUrl).apply(requestOptions)
-                .into(new ImageViewTarget<Drawable>(option.imageView) {
-
-                    @Override
-                    public void onResourceReady(@NonNull Drawable resource,
-                                                @Nullable Transition<? super Drawable> transition) {
-                        super.onResourceReady(resource, transition);
-                        if (context == null)
-                            return;
-                        if (context instanceof Activity) {
-                            Activity activity = (Activity) context;
-                            if (activity.isDestroyed() || activity.isFinishing())
+        if (option.asBitmap) {
+            Glide.with(context).asBitmap().load(glideUrl).apply(requestOptions)
+                    .into(new CustomTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                            if (context == null)
                                 return;
-                        }
-                        if (resource instanceof GifDrawable) {
-
-                            GifDrawable gifDrawable = (GifDrawable) resource;
-
-                            if (option.imageView != null) {
-                                if (option.autoPlayGif) {
-                                    gifDrawable.start();
-                                    Log.i(TAG, "gif frame index:" + gifDrawable.getFrameIndex());
-                                    Log.i(TAG, "gif frame is running:" + gifDrawable.isRunning());
-                                    if (!gifDrawable.isRunning() && gifDrawable.getFrameIndex() > -1) {
-                                        gifDrawable.startFromFirstFrame();
-                                    }
-
-                                }
-                                option.imageView.setImageDrawable(gifDrawable);
-                                setBorder(option);
+                            if (context instanceof Activity) {
+                                Activity activity = (Activity) context;
+                                if (activity.isDestroyed() || activity.isFinishing())
+                                    return;
                             }
 
                             if (option.listener != null) {
-                                option.listener.onSuccess(resource, true);
+                                option.listener.onBitMapSuccess(resource, false);
                             }
-                            // Do things with GIF here.
-                        } else {
+                        }
+
+                        @Override
+                        public void onLoadCleared(@Nullable Drawable placeholder) {
+                        }
+
+                        @Override
+                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                            super.onLoadFailed(errorDrawable);
+                            if (context == null)
+                                return;
+                            if (context instanceof Activity) {
+                                Activity activity = (Activity) context;
+                                if (activity.isDestroyed() || activity.isFinishing())
+                                    return;
+                            }
+                            if (option.imageView != null) {
+                                option.imageView.setImageDrawable(errorDrawable);
+                            }
+                            if (option.listener != null) {
+                                option.listener.onFail();
+                            }
+                        }
+                    });
+        } else {
+            Glide.with(context).load(glideUrl).apply(requestOptions)
+                    .into(new ImageViewTarget<Drawable>(option.imageView) {
+
+                        @Override
+                        public void onResourceReady(@NonNull Drawable resource,
+                                                    @Nullable Transition<? super Drawable> transition) {
+                            super.onResourceReady(resource, transition);
+                            if (context == null)
+                                return;
+                            if (context instanceof Activity) {
+                                Activity activity = (Activity) context;
+                                if (activity.isDestroyed() || activity.isFinishing())
+                                    return;
+                            }
+                            if (resource instanceof GifDrawable) {
+
+                                GifDrawable gifDrawable = (GifDrawable) resource;
+
+                                if (option.imageView != null) {
+                                    if (option.autoPlayGif) {
+                                        gifDrawable.start();
+                                        Log.i(TAG, "gif frame index:" + gifDrawable.getFrameIndex());
+                                        Log.i(TAG, "gif frame is running:" + gifDrawable.isRunning());
+                                        if (!gifDrawable.isRunning() && gifDrawable.getFrameIndex() > -1) {
+                                            gifDrawable.startFromFirstFrame();
+                                        }
+
+                                    }
+                                    option.imageView.setImageDrawable(gifDrawable);
+                                    setBorder(option);
+                                }
+
+                                if (option.listener != null) {
+                                    option.listener.onSuccess(resource, true);
+                                }
+                                // Do things with GIF here.
+                            } else {
+                                if (option.imageView != null) {
+                                    option.imageView.setImageDrawable(resource);
+
+                                    setBorder(option);
+                                }
+                                if (option.listener != null) {
+                                    option.listener.onSuccess(resource, false);
+                                }
+                            }
+                        }
+
+                        @Override
+                        protected void setResource(@Nullable Drawable resource) {
+                            if (context == null)
+                                return;
+                            if (context instanceof Activity) {
+                                Activity activity = (Activity) context;
+                                if (activity.isDestroyed() || activity.isFinishing())
+                                    return;
+                            }
                             if (option.imageView != null) {
                                 option.imageView.setImageDrawable(resource);
+                            }
+                        }
 
-                                setBorder(option);
+                        @Override
+                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                            super.onLoadFailed(errorDrawable);
+                            if (context == null)
+                                return;
+                            if (context instanceof Activity) {
+                                Activity activity = (Activity) context;
+                                if (activity.isDestroyed() || activity.isFinishing())
+                                    return;
+                            }
+                            if (option.imageView != null) {
+                                option.imageView.setImageDrawable(errorDrawable);
                             }
                             if (option.listener != null) {
-                                option.listener.onSuccess(resource, false);
+                                option.listener.onFail();
                             }
                         }
-                    }
+                    });
 
-                    @Override
-                    protected void setResource(@Nullable Drawable resource) {
-                        if (context == null)
-                            return;
-                        if (context instanceof Activity) {
-                            Activity activity = (Activity) context;
-                            if (activity.isDestroyed() || activity.isFinishing())
-                                return;
-                        }
-                        if (option.imageView != null) {
-                            option.imageView.setImageDrawable(resource);
-                        }
-                    }
 
-                    @Override
-                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                        super.onLoadFailed(errorDrawable);
-                        if (context == null)
-                            return;
-                        if (context instanceof Activity) {
-                            Activity activity = (Activity) context;
-                            if (activity.isDestroyed() || activity.isFinishing())
-                                return;
-                        }
-                        if (option.imageView != null) {
-                            option.imageView.setImageDrawable(errorDrawable);
-                        }
-                        if (option.listener != null) {
-                            option.listener.onFail();
-                        }
-                    }
-                });
-//        .into(new CustomTarget<Bitmap>() {
-//            @Override
-//            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-//                imageView.setImageBitmap(resource);
-//                imageView.buildDrawingCache();
-//            }
-//            @Override
-//            public void onLoadCleared(@Nullable Drawable placeholder) { }
-//        });
+        }
+
 
     }
 
