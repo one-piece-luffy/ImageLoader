@@ -296,11 +296,8 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
 
             return;
         }
-        GlideUrl glideUrl;
-        if (option.header == null) {
-            glideUrl = new GlideUrl(option.url, new LazyHeaders.Builder()
-                    .build());
-        } else {
+        GlideUrl glideUrl=null;
+        if (option.header != null) {
             Iterator<Map.Entry<String, String>> it = option.header.entrySet().iterator();
             LazyHeaders.Builder builder = new LazyHeaders.Builder();
             while (it.hasNext()) {
@@ -317,7 +314,8 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
             glideUrl = new GlideUrl(option.url, builder.build());
         }
         if (option.asBitmap) {
-            Glide.with(context).asBitmap().load(glideUrl).apply(requestOptions)
+            Object obj=glideUrl==null?option.url:glideUrl;
+            Glide.with(context).asBitmap().load(obj).apply(requestOptions)
                     .into(new CustomTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
