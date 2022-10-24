@@ -355,7 +355,8 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
                         }
                     });
         } else {
-            Glide.with(context).load(glideUrl).apply(requestOptions)
+            Object obj=glideUrl==null?option.url:glideUrl;
+            Glide.with(context).load(obj).apply(requestOptions)
                     .into(new ImageViewTarget<Drawable>(option.imageView) {
 
                         @Override
