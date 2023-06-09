@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 
-apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'maven-publish'
 group='com.github.one-piece-luffy'
 android {
 
@@ -10,15 +10,13 @@ android {
     }
 
 
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion 33
+    buildToolsVersion '32.0.0'
 
 
     defaultConfig {
         minSdkVersion 22
-        targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 33
 
     }
 
@@ -34,6 +32,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    namespace 'com.allfootball.news.imageloader'
 
 
 }
@@ -52,6 +51,8 @@ dependencies {
     api ('com.github.bumptech.glide:okhttp3-integration:4.12.0'){
 //        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
     }
+    //glide的各种transformations，包括高斯模糊
+    api 'jp.wasabeef:glide-transformations:4.3.0'
 }
 
 
