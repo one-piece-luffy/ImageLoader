@@ -98,7 +98,7 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
      * @param timeout   超时时间 单位毫秒,默认10秒
      * @param url       图片数组
      */
-    public void loadImage(Context context, ImageView imageView, int timeout, String... url) {
+    public void loadImage(final Context context, final ImageView imageView, final int timeout, final String... url) {
 
         imageView.setTag(imageView.getId(), null);
         final String temp = url[0];
@@ -115,7 +115,7 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
             }
         });
 
-        Handler checkTimeOut = new Handler();
+        final Handler checkTimeOut = new Handler();
         Runnable runnable = new Runnable() {
             int index = 1;
 
@@ -217,7 +217,7 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
         }
     }
 
-    private void startLoad(Context context, ImageOption option) {
+    private void startLoad(final Context context, final ImageOption option) {
         if (context == null)
             return;
         if (context instanceof Activity) {
@@ -550,7 +550,7 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
                     if (!dirFile.exists()) {
                         dirFile.mkdir();
                     }
-                    String newPath = dirFile.getAbsolutePath() + "/" + System.currentTimeMillis()
+                    final String newPath = dirFile.getAbsolutePath() + "/" + System.currentTimeMillis()
                             + ".jpg";
                     copyFile(f.getAbsolutePath(), newPath);
                     if (f != null && imageListener != null) {

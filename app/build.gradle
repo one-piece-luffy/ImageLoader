@@ -44,7 +44,7 @@ dependencies {
 
 
 
-    implementation 'com.github.one-piece-luffy:ImageLoader:2.5.4'
+//    implementation 'com.github.one-piece-luffy:ImageLoader:2.5.4'
     api project(':imageloader')
 
 }
