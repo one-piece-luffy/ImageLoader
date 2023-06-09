@@ -55,6 +55,18 @@ dependencies {
     api 'jp.wasabeef:glide-transformations:4.3.0'
 }
 
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+//                from components.release
+                groupId = 'com.example.mylibrary' //groupId 随便取，jitpack不会使用
+                artifactId = 'test'  //test随便取,jitpack不会使用
+                version = '1.0.1' //随便取，jitpack不会使用
+            }
+        }
+    }
+}
 
 //task sourcesJar(type: Jar) {
 //    classifier = 'sources'
