@@ -1,7 +1,8 @@
 apply plugin: 'com.android.library'
 
+//apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'maven-publish'
-group='com.github.one-piece-luffy'
+//group='com.github.one-piece-luffy'
 android {
 
     compileOptions {
@@ -59,10 +60,10 @@ afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
-//                from components.release
-                groupId = 'com.example.mylibrary' //groupId 随便取，jitpack不会使用
-                artifactId = 'test'  //test随便取,jitpack不会使用
-                version = '1.0.1' //随便取，jitpack不会使用
+//                from components.jar
+                groupId = 'com.github.one-piece-luffy' //groupId 随便取，jitpack不会使用
+                artifactId = 'ImageLoader'  //test随便取,jitpack不会使用
+                version = '2.5.11' //随便取，jitpack不会使用
             }
         }
     }
