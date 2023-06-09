@@ -56,18 +56,18 @@ dependencies {
     api 'jp.wasabeef:glide-transformations:4.3.0'
 }
 
-//afterEvaluate {
-//    publishing {
-//        publications {
-//            release(MavenPublication) {
-////                from components.jar
-//                groupId = 'com.github.one-piece-luffy' //groupId 随便取，jitpack不会使用
-//                artifactId = 'ImageLoader'  //test随便取,jitpack不会使用
-//                version = '2.5.12' //随便取，jitpack不会使用
-//            }
-//        }
-//    }
-//}
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+//                from components.jar
+                groupId = 'com.github.one-piece-luffy' //groupId 随便取，jitpack不会使用
+                artifactId = 'ImageLoader'  //test随便取,jitpack不会使用
+                version = '2.5.15' //随便取，jitpack不会使用
+            }
+        }
+    }
+}
 
 //task sourcesJar(type: Jar) {
 //    classifier = 'sources'
