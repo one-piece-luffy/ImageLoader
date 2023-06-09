@@ -20,7 +20,7 @@ import okhttp3.Response;
  */
 public class ProgressManager {
 
-    private static Map<String, OnProgressListener> listenersMap = new HashMap<>();
+    private static final Map<String, OnProgressListener> listenersMap = new HashMap<>();
     private static OkHttpClient okHttpClient;
 
     private ProgressManager() {
