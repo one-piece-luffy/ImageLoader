@@ -109,20 +109,6 @@ afterEvaluate {
     }
 }
 
-//afterEvaluate {
-//    publishing {
-//        publications {
-//            maven(MavenPublication) {
-//                groupId = 'com.github.one-piece-luffy' //groupId 随便取，jitpack不会使用
-//                artifactId = 'ImageLoader'  //test随便取,jitpack不会使用
-//                version = '2.5.17' //随便取，jitpack不会使用
-//
-////                from components.release
-//            }
-//        }
-//    }
-//
-//}
 
 //task sourcesJar(type: Jar) {
 //    classifier = 'sources'
