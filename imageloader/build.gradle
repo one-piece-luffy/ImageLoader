@@ -1,8 +1,12 @@
-apply plugin: 'com.android.library'
 
-//apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'maven-publish'
+
+plugins {
+//    id 'maven-publish'
+    id 'com.android.library'
+//    id 'java'
+}
 group='com.github.one-piece-luffy'
+
 android {
 
     compileOptions {
@@ -56,19 +60,69 @@ dependencies {
     api 'jp.wasabeef:glide-transformations:4.3.0'
 }
 
+apply plugin: "maven-publish"
+
+android {
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
+}
+
 afterEvaluate {
     publishing {
         publications {
-            maven(MavenPublication) {
+            release(MavenPublication) {
+                from components.release
+
                 groupId = 'com.github.one-piece-luffy' //groupId 随便取，jitpack不会使用
                 artifactId = 'ImageLoader'  //test随便取,jitpack不会使用
-                version = '2.5.16' //随便取，jitpack不会使用
+                version = '2.5.18' //随便取，jitpack不会使用
 
-//                from components.java
+
+//                pom {
+//                    name = PROJ_NAME
+//                    description = PROJ_DESCRIPTION
+//                    url = PROJ_VCSURL
+//                    licenses {
+//                        license {
+//                            name = "The Apache License, Version 2.0"
+//                            url = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+//                        }
+//                    }
+//                    developers {
+//                        developer {
+//                            id = DEVELOPER_ID
+//                            name = DEVELOPER_NAME
+//                        }
+//                    }
+//                    scm {
+//                        connection = PROJ_ISSUETRACKERURL
+//                        developerConnection = PROJ_VCSURL
+//                        url = PROJ_WEBSITEURL
+//                    }
+//                }
             }
         }
     }
 }
+
+//afterEvaluate {
+//    publishing {
+//        publications {
+//            maven(MavenPublication) {
+//                groupId = 'com.github.one-piece-luffy' //groupId 随便取，jitpack不会使用
+//                artifactId = 'ImageLoader'  //test随便取,jitpack不会使用
+//                version = '2.5.17' //随便取，jitpack不会使用
+//
+////                from components.release
+//            }
+//        }
+//    }
+//
+//}
 
 //task sourcesJar(type: Jar) {
 //    classifier = 'sources'
