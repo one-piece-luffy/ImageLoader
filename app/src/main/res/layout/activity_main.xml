@@ -86,4 +86,12 @@
         android:background="#fff"
         app:layout_constraintStart_toEndOf="@+id/img4"
         app:layout_constraintTop_toTopOf="@+id/img4"/>
+    <ImageView
+        android:id="@+id/img6"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        android:background="#fff"
+        app:layout_constraintStart_toStartOf="@+id/img4"
+        app:layout_constraintTop_toBottomOf="@+id/img4" />
 </androidx.constraintlayout.widget.ConstraintLayout>

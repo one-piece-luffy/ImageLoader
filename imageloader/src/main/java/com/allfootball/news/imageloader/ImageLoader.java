@@ -32,6 +32,8 @@ public class ImageLoader {
 
     private BaseImageStrategy mStrategy;
 
+    ImageConfig config;
+
     public interface STRATEGY_TYPE {
         int GLIDE = 0;
 //        int FRESCO = 1;
@@ -66,6 +68,7 @@ public class ImageLoader {
     }
 
     public void init(ImageConfig config) {
+        this.config=config;
         if (config == null) {
             mStrategy = new GlideImageLoaderStrategy();
         } else {
@@ -76,6 +79,10 @@ public class ImageLoader {
             }
         }
         mStrategy.init(config);
+    }
+
+    public ImageConfig getConfig(){
+        return config;
     }
 
     public void loadImage(Context context, ImageOption option) {

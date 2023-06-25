@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
@@ -26,10 +27,12 @@ import com.allfootball.news.imageloader.BaseImageStrategy;
 import com.allfootball.news.imageloader.ImageConfig;
 import com.allfootball.news.imageloader.ImageLoader;
 import com.allfootball.news.imageloader.ImageOption;
+import com.allfootball.news.imageloader.util.ImageDownloadExecutor;
 import com.allfootball.news.imageloader.util.ImageLoaderUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.Transformation;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -68,7 +71,7 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
 
     @Override
     public void init(ImageConfig config) {
-        ViewTarget.setTagId(R.id.glide_tag);
+//        ViewTarget.setTagId(R.id.glide_tag);
     }
 
     @Override
@@ -244,7 +247,10 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
             if (option.drawable != null) {
                 Glide.with(context).load(option.drawable).apply(requestOptions)
                         .into(option.imageView);
-            } else {
+            } else if(option.file!=null){
+                Glide.with(context).asBitmap().load(option.file).apply(requestOptions)
+                        .into(option.imageView);
+            }else {
                 if (option.imageView == null) {
                     Glide.with(context).asBitmap().load(option.resId).apply(requestOptions)
                             .into(new CustomTarget<Bitmap>() {
@@ -443,8 +449,8 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
 
     }
 
-    @Override
-    public void downloadImage(final Context context, final String url,
+
+    public void downloadImage2(final Context context, final String url,
                               final ImageLoader.ImageListener listener) {
         Glide.with(context).load(url).into(new SimpleTarget<Drawable>() {
             @Override
@@ -465,15 +471,57 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
     }
 
     @Override
+    public void downloadImage(final Context context, final String url,
+                              final ImageLoader.ImageListener listener) {
+        final Handler handler = new Handler();
+        ImageDownloadExecutor.execute(() -> {
+            final File f;
+            try {
+                f = Glide.with(context).downloadOnly().load(url)
+                        .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
+                String path = ImageLoader.getInstance().getConfig().downloadPath;
+
+                File dirFile = new File(path);
+                if (!dirFile.exists()) {
+                    dirFile.mkdirs();
+                }
+                final String newPath = path + "/" + System.currentTimeMillis()
+                        + ".jpg";
+                copyFile(f.getAbsolutePath(), newPath);
+                if ( listener != null) {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            listener.onDownloaded(f.getAbsolutePath(), newPath);
+                        }
+                    });
+                    Log.e(TAG, "download file path:" + f.getAbsolutePath());
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                listener.onFail();
+            }
+        });
+
+    }
+
+    @Override
     public void clearCache(final Context context) {
-        new Thread() {
+
+        ImageDownloadExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                super.run();
                 Glide.get(context).clearDiskCache();
 
+                File file=new File(ImageLoader.getInstance().getConfig().downloadPath);
+                File[] list=file.listFiles();
+                for (File f:list){
+                    f.delete();
+                }
             }
-        }.start();
+        });
+
         Handler mainHandler = new Handler(Looper.getMainLooper());
         mainHandler.post(new Runnable() {
             @Override

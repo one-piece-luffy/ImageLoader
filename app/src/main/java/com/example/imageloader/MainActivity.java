@@ -20,6 +20,7 @@ import com.allfootball.news.imageloader.ImageOption;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         ImageView iv3=findViewById(R.id.img3);
         ImageView iv4=findViewById(R.id.img4);
         ImageView iv5=findViewById(R.id.img5);
+        ImageView iv6=findViewById(R.id.img6);
         iv2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,7 +48,11 @@ public class MainActivity extends AppCompatActivity {
         });
         CircleProgressView circleProgressView=findViewById(R.id.progressView);
 
-        ImageLoader.getInstance().init(new ImageConfig.Builder().strategyType(ImageLoader.STRATEGY_TYPE.GLIDE).build());
+        String path=getExternalCacheDir()+"/glide_download";
+        ImageLoader.getInstance().init(new ImageConfig.Builder()
+                .strategyType(ImageLoader.STRATEGY_TYPE.GLIDE)
+                        .downloadPath(path)
+                .build());
 
         ImageLoader.getInstance().clearCache(this);
 
@@ -147,12 +153,33 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .loadImage(this);
+        String down="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/fZXturIugHYCl7T6oLeMj1AWm7p.jpg";
+        ImageLoader.getInstance().downloadImage(this,down,new ImageLoader.ImageListener(){
+            @Override
+            public void onDownloaded(String filePath, String reNameFilepath) {
+                super.onDownloaded(filePath, reNameFilepath);
+
+                File file=new File(ImageLoader.getInstance().getConfig().downloadPath);
+                File[] list=file.listFiles();
+                ImageLoader.getInstance()
+                        .file(list[0])
+                        .imageView(iv6)
+                        .loadImage(MainActivity.this);
+
+            }
+        });
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        ImageLoader.getInstance().clearCache(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         ImageLoader.getInstance().clearCache(this);
     }
 }
