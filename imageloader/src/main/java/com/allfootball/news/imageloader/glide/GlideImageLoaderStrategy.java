@@ -489,10 +489,8 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
                 if(TextUtils.isEmpty(fileName)){
                     newPath+=System.currentTimeMillis()
                             + ".jpg";
-                }else if(fileName.contains(".")){
-                    newPath+=fileName;
                 }else {
-                    newPath+=fileName+".jpg";
+                    newPath+=fileName;
                 }
 
                 final String tempNewPath = newPath;
