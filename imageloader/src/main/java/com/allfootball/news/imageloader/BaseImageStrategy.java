@@ -16,7 +16,7 @@ public interface BaseImageStrategy {
 
     void loadImage(Context context, ImageOption option);
 
-    void downloadImage(Context context, String url,ImageLoader.ImageListener listener);
+    void downloadImage(Context context, String url,String fileName,ImageLoader.ImageListener listener);
 
     void clearCache(Context context);
 

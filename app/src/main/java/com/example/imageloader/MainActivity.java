@@ -153,8 +153,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .loadImage(this);
-        String down="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/fZXturIugHYCl7T6oLeMj1AWm7p.jpg";
-        ImageLoader.getInstance().downloadImage(this,down,new ImageLoader.ImageListener(){
+        String down="https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2889601665.webp";
+        ImageLoader.getInstance().downloadImage(this,down,null,new ImageLoader.ImageListener(){
             @Override
             public void onDownloaded(String filePath, String reNameFilepath) {
                 super.onDownloaded(filePath, reNameFilepath);

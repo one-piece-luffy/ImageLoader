@@ -471,7 +471,7 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
     }
 
     @Override
-    public void downloadImage(final Context context, final String url,
+    public void downloadImage(final Context context, final String url,String fileName,
                               final ImageLoader.ImageListener listener) {
         final Handler handler = new Handler();
         ImageDownloadExecutor.execute(() -> {
@@ -485,14 +485,23 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
                 if (!dirFile.exists()) {
                     dirFile.mkdirs();
                 }
-                final String newPath = path + "/" + System.currentTimeMillis()
-                        + ".jpg";
+                String newPath=path + "/";
+                if(TextUtils.isEmpty(fileName)){
+                    newPath+=System.currentTimeMillis()
+                            + ".jpg";
+                }else if(fileName.contains(".")){
+                    newPath+=fileName;
+                }else {
+                    newPath+=fileName+".jpg";
+                }
+
+                final String tempNewPath = newPath;
                 copyFile(f.getAbsolutePath(), newPath);
                 if ( listener != null) {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            listener.onDownloaded(f.getAbsolutePath(), newPath);
+                            listener.onDownloaded(f.getAbsolutePath(), tempNewPath);
                         }
                     });
                     Log.e(TAG, "download file path:" + f.getAbsolutePath());

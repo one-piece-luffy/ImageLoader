@@ -96,14 +96,14 @@ public class ImageLoader {
     }
 
 
-    public void downloadImage(Context context, String url, ImageListener listener) {
+    public void downloadImage(Context context, String url, String fileName,ImageListener listener) {
         if (context == null)
             return;
         if (mStrategy == null){
             Log.e("ImageLoader","图片库ImageLoad没有初始化");
             return;
         }
-        mStrategy.downloadImage(context, url, listener);
+        mStrategy.downloadImage(context, url, fileName,listener);
     }
 
     public void clearCache(Context context) {
