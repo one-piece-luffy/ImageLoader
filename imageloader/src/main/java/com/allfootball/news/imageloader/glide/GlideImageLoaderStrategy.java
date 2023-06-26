@@ -497,13 +497,8 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
 
                 final String tempNewPath = newPath;
                 copyFile(f.getAbsolutePath(), newPath);
-                if ( listener != null) {
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            listener.onDownloaded(f.getAbsolutePath(), tempNewPath);
-                        }
-                    });
+                if (listener != null) {
+                    listener.onDownloaded(f.getAbsolutePath(), tempNewPath);
                     Log.e(TAG, "download file path:" + f.getAbsolutePath());
 
                 }
