@@ -30,9 +30,11 @@ import com.allfootball.news.imageloader.ImageOption;
 import com.allfootball.news.imageloader.util.ImageDownloadExecutor;
 import com.allfootball.news.imageloader.util.ImageLoaderUtil;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.cache.DiskLruCacheFactory;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -518,9 +520,12 @@ public class GlideImageLoaderStrategy implements BaseImageStrategy {
 
                 File file=new File(ImageLoader.getInstance().getConfig().downloadPath);
                 File[] list=file.listFiles();
-                for (File f:list){
-                    f.delete();
+                if(list!=null&&list.length>0){
+                    for (File f:list){
+                        f.delete();
+                    }
                 }
+
             }
         });
 

@@ -17,6 +17,7 @@ import com.allfootball.news.imageloader.progress.OnProgressListener;
 import com.allfootball.news.imageloader.ImageConfig;
 import com.allfootball.news.imageloader.ImageLoader;
 import com.allfootball.news.imageloader.ImageOption;
+import com.allfootball.news.imageloader.util.ImageLoaderUtil;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 
@@ -48,15 +49,15 @@ public class MainActivity extends AppCompatActivity {
         });
         CircleProgressView circleProgressView=findViewById(R.id.progressView);
 
-        String path=getExternalCacheDir()+"/glide_download";
+        String path= ImageLoaderUtil.getDownloadPath(this) +"/glide_download";
         ImageLoader.getInstance().init(new ImageConfig.Builder()
                 .strategyType(ImageLoader.STRATEGY_TYPE.GLIDE)
-                        .downloadPath(path)
+                .downloadPath(path)
                 .build());
 
         ImageLoader.getInstance().clearCache(this);
 
-        String url1="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhiphotos.baidu.com%2Ffeed%2Fpic%2Fitem%2Fa686c9177f3e67093183c94037c79f3df9dc558a.jpg&refer=http%3A%2F%2Fhiphotos.baidu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1623831963&t=4f2d32725e0a946cc7303c098b52bc1d";
+        String url1="https://img2.baidu.com/it/u=1297178068,356861250&fm=253&app=138&f=JPEG?w=800&h=1435";
 //        url1="https://mp3.haoge500.com/9kuimg/zhuanji/20161114/1b33a084d1ad0af6.jpg?x-oss-process=image/resize,m_fill,w_200,h_200,limit_0/auto-orient,0";
 //        Map<String,String> header=new HashMap<>();
 //        header.put("referer","https://www.zz123.com/");
@@ -153,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .loadImage(this);
-        String down="https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2889601665.webp";
+        String down="https://img0.baidu.com/it/u=2945667683,2071297187&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1200";
         ImageLoader.getInstance().downloadImage(this,down,null,new ImageLoader.ImageListener(){
             @Override
             public void onDownloaded(String filePath, String reNameFilepath) {
