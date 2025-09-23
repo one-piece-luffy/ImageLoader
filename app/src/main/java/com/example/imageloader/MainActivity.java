@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        String url="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fu001.sy1114.com%2F20170618%2Fdf722f90fe846b8d9986dcd7daa6ccc4.gif&refer=http%3A%2F%2Fu001.sy1114.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1623831963&t=82781bdeb5d76eb7e72c68b4728c92a4";
+        String url="https://img1.baidu.com/it/u=2024486738,3960386068&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1423";
         //gif
         ImageLoader.getInstance().url(url)
                 .imageView(iv1)

@@ -9,8 +9,9 @@ buildscript {
         google()
     }
     dependencies {
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.20'
         classpath 'com.android.tools.build:gradle:8.8.0'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'//发布sdk用
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'//发布sdk用
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
