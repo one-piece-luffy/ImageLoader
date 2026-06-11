@@ -22,6 +22,10 @@ public interface BaseImageStrategy {
 
     void clearMemoryCache(Context context);
 
+    /**
+     * 获取单张图片下载的路径
+     */
     File getCachedOnDisk(Context context, String url, ImageLoader.ImageListener listener);
+
 
 }

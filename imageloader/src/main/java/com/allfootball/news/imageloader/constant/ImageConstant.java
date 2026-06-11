@@ -8,4 +8,6 @@ public class ImageConstant {
 
     //有这个后缀的图片，不加Webp-Support
     public static final String WEBP_SUFFIX="?af_websupport=0";
+
+    public static final String CACHE_PATH="glide_chahe";
 }

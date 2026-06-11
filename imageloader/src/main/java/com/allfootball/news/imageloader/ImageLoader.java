@@ -138,10 +138,6 @@ public class ImageLoader {
 
 
 
-
-
-
-
     public ImageOption.Builder context(Context context) {
         return new ImageOption.Builder().context(context);
     }
